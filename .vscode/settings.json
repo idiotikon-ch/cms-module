@@ -1,0 +1,27 @@
+{
+  "editor.rulers": [80, 120],
+  "editor.trimAutoWhitespace": false,
+  "editor.formatOnSave": true,
+
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnType": false,
+  "html.format.templating": true,
+  "files.trimTrailingWhitespace": true,
+  "[python]": {
+    "editor.formatOnType": true,
+    "editor.defaultFormatter": "ms-python.autopep8",
+    "editor.formatOnSaveMode": "modificationsIfAvailable"
+  },
+  "prettier.printWidth": 80,
+  "prettier.bracketSpacing": true,
+  "prettier.bracketSameLine": true,
+  "prettier.semi": false,
+  "prettier.singleAttributePerLine": false,
+  "prettier.htmlWhitespaceSensitivity": "ignore",
+  "git.ignoreLimitWarning": true,
+  "flake8.severity": {
+    "E": "Warning",
+    "F": "Warning"
+  },
+  "autopep8.args": ["--max-line-length=80"]
+}

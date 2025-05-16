@@ -1,0 +1,47 @@
+services:
+  ui:
+    depends_on:
+      - strapi
+    build:
+      context: .
+      dockerfile: ui/Dockerfile
+    volumes:
+      - ./ui:/app_xy/ui
+      - /app_xy/ui/node_modules/ # anonymous volume -> clean up from time to time
+    working_dir: /app_xy/ui
+    ports:
+      - 3000:3000
+      - 24678:24678 # development only (for hot reload module)
+    environment:
+      - HOST=0.0.0.0
+    command: npm run dev
+
+  ## using sqlite for playground
+  # postgres:
+  #   image: postgres:17.4
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+  #   # ports:
+  #   #   - 5443:5432
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #     - HOST=localhost
+  strapi:
+    # depends_on:
+    #   - postgres
+    build: strapi
+    user: node
+    volumes:
+      - ./strapi:/opt/app
+    working_dir: /opt/app
+    ports:
+      - 1337:1337
+    environment:
+      - DATABASE_CLIENT=sqlite
+      - HOST=0.0.0.0
+      - PORT=1337
+    command: npm run develop #npm run start
+
+volumes:
+  pgdata:
