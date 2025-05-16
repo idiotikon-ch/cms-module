@@ -1,7 +1,8 @@
 ## Database
 
 using sqlite for playground
-local the default db_file lives in
-`strapi/.tmp/data.db`
 
-checked in db-file in `strapi/data/db`
+db file used by strapi: `strapi/.tmp/data.db`
+
+checked-in db-file: `strapi/data/db/data.db`
+
