@@ -43,5 +43,5 @@ services:
       - PORT=1337
     command: npm run develop #npm run start
 
-volumes:
-  pgdata:
+# volumes:
+#   pgdata:
