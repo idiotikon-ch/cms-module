@@ -7,7 +7,7 @@ services:
       dockerfile: ui/Dockerfile
     volumes:
       - ./ui:/app_xy/ui
-      - /app_xy/ui/node_modules/ # anonymous volume -> clean up from time to time
+      - /app_xy/ui/node_modules/ # anonymous volume -> clean up from time to  time
     working_dir: /app_xy/ui
     ports:
       - 3000:3000
