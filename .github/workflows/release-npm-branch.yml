@@ -1,0 +1,37 @@
+name: Release Nuxt Module to npm-release Branch
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "nuxt-module/**"
+      - ".github/workflows/release-npm-branch.yml"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Set up Git user
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Create npm-release branch content
+        run: |
+          rm -rf temp
+          mkdir temp
+          cp -r nuxt-module/* temp/
+          git checkout --orphan npm-release
+          git rm -rf .
+          cp -r temp/* .
+          rm -rf temp
+          git add .
+          git commit -m "Automated release: move nuxt-module to root"
+
+      - name: Force push to npm-release branch
+        run: |
+          git push --force origin HEAD:npm-release
