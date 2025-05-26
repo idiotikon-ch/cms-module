@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "nuxt-module/**"
+      - "ui/**"
       - ".github/workflows/release-npm-branch.yml"
 
 jobs:
@@ -24,13 +24,13 @@ jobs:
         run: |
           rm -rf temp
           mkdir temp
-          cp -r nuxt-module/* temp/
+          cp -r ui/* temp/
           git checkout --orphan npm-release
           git rm -rf .
           cp -r temp/* .
           rm -rf temp
           git add .
-          git commit -m "Automated release: move nuxt-module to root"
+          git commit -m "Automated release: move ui to root"
 
       - name: Force push to npm-release branch
         run: |
