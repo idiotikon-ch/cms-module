@@ -30,7 +30,7 @@ jobs:
           cp -r temp/* .
           rm -rf temp
           git add .
-          git commit -m "Automated release: move ui to root"
+          git commit -m "Automated commit: move ui to root"
 
       - name: Force push to npm-release branch
         run: |
