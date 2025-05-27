@@ -1,0 +1,19 @@
+{
+  "name": "idi-cms-module",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./src/module.ts",
+  "exports": {
+    ".": {
+      "import": "./src/module.ts"
+    }
+  },
+  "files": [
+    "src",
+    "runtime",
+    "components"
+  ],
+  "dependencies": {
+    "@nuxt/kit": "^3.17.3"
+  }
+}
