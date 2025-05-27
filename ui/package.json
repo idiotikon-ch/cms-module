@@ -1,7 +1,7 @@
 {
   "name": "idi-cms-module",
-  "version": "1.0.0",
-  "description": "My new Nuxt module",
+  "version": "0.0.1",
+  "description": "idiotikon nuxt module for strapi",
   "repository": "your-org/idi-cms-module",
   "license": "MIT",
   "type": "module",
