@@ -7,21 +7,14 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/types.d.mts",
-      "import": "./dist/module.mjs"
+      "import": "./src/module.ts"
     }
   },
   "main": "./src/module.ts",
-  "typesVersions": {
-    "*": {
-      ".": [
-        "./dist/types.d.mts"
-      ]
-    }
-  },
   "files": [
-    "dist",
-    "src"
+    "src",
+    "runtime",
+    "components"
   ],
   "scripts": {
     "prepack": "nuxt-module-build build",
