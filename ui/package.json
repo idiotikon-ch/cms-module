@@ -14,7 +14,8 @@
   "files": [
     "src",
     "runtime",
-    "components"
+    "components",
+    "dist"
   ],
   "scripts": {
     "prepack": "nuxt-module-build build",
