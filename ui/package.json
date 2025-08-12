@@ -16,7 +16,8 @@
     "runtime"
   ],
   "scripts": {
-    "dev": "nuxi dev playground"
+    "dev": "npm run dev:prepare && nuxi dev playground",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground"
   },
   "dependencies": {
     "@nuxt/kit": "^4.0.3"
