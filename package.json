@@ -1,0 +1,38 @@
+{
+  "name": "idi-cms-module",
+  "version": "0.0.1",
+  "description": "idiotikon nuxt module for strapi",
+  "repository": "your-org/idi-cms-module",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./src/module.ts"
+    }
+  },
+  "main": "./src/module.ts",
+  "files": [
+    "src",
+    "runtime"
+  ],
+  "scripts": {
+    "dev": "nuxi dev playground"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^4.0.3"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^2.6.2",
+    "@nuxt/eslint-config": "^1.8.0",
+    "@nuxt/module-builder": "^1.0.2",
+    "@nuxt/schema": "^4.0.3",
+    "@nuxt/test-utils": "^3.19.2",
+    "@types/node": "latest",
+    "changelogen": "^0.6.2",
+    "eslint": "^9.33.0",
+    "nuxt": "^4.0.3",
+    "typescript": "~5.9.2",
+    "vitest": "^3.2.4",
+    "vue-tsc": "^3.0.5"
+  }
+}
