@@ -9,7 +9,7 @@
 
   <div v-if="tile">
     <h2>{{ tile.title }}</h2>
-    <p v-html="tile.content"></p>
+    <div v-html="renderMarkdown(tile.content)"></div>
     <img v-if="tile.picture" :src="`${cms_images_url}${tile.picture.url}`" alt="Tile Image" />
   </div>
   <div v-else>
@@ -17,6 +17,10 @@
   </div>
 </template>
 <script setup lang="ts">
+import MarkdownIt from 'markdown-it'
+
+const md = new MarkdownIt()
+
 const { findOne } = useStrapi()
 const article = ref()
 try {
@@ -33,7 +37,11 @@ try {
   tile.value = response.data
 } catch (error) {
   console.error("Error fetching tile:", error)
-  // Handle the error, e.g., show a message to the user
+  tile.value = null // Handle the error
 }
 
+// Function to render Markdown
+const renderMarkdown = (content: string) => {
+  return md.render(content || '')
+}
 </script>
