@@ -42,11 +42,25 @@ const fetchTile = async (id: string, target: any) => {
   console.log(`Fetched tile ${id}:`, target.value);
 }
 
+
+const fetchTileBySlug = async (slug, target) => {
+  try {
+    const response = await fetch(`http://localhost:1337/api/tile/${slug}`);
+    if (!response.ok) throw new Error('Network response was not ok');
+    const data = await response.json();
+    target.value = data;
+  } catch (error) {
+    console.error(`Error fetching tile by slug ${slug}:`, error);
+    target.value = null;
+  }
+};
+
+
 const tile = ref()
 const tile2 = ref()
 
 fetchTile("another-tile", tile)
-fetchTile("test-tile-1", tile2)
+fetchTileBySlug("test-tile-1", tile2)
 
 
 </script>
