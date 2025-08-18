@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import TileRow from '~/components/TileRow.vue'
+</script>
+
 <template>
     <v-container>
         <v-row v-if="firstTile && infoTile && projectTile">
@@ -13,7 +17,7 @@
         </v-row>
 
 
-        <IdiCmsTileRow></IdiCmsTileRow>
+        <TileRow></TileRow>
 
 
     </v-container>

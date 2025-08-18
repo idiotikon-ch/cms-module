@@ -23,5 +23,10 @@
     "E": "Warning",
     "F": "Warning"
   },
-  "autopep8.args": ["--max-line-length=80"]
+  "autopep8.args": [
+    "--max-line-length=80"
+  ],
+  "[vue]": {
+    "editor.defaultFormatter": "Vue.volar"
+  }
 }
