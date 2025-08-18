@@ -4,8 +4,6 @@
     <v-app-bar color="primary" :extended="!smAndUp && shrinkAppBar ? false : true" class="pr-4" density="compact">
       <v-app-bar-nav-icon @click="showDrawer = !showDrawer" :class="xs ? 'mt-2' : 'mt-8'">
       </v-app-bar-nav-icon>
-      <v-app-var-nav-item :class="xs ? 'mt-2' : 'mt-8'" :icon="mdiMagnify" @click="router.push({ name: 'search' })"
-        class="d-flex align-center justify-center"></v-app-var-nav-item>
       <v-app-bar-title @click="router.push({ name: 'index' })" class="align-self-start" :class="xs ? 'ml-0' : 'ml-2'">
         <a href="/">
           <v-img v-if="xs && !shrinkAppBar" to="/" :src="'/static/img/si_logo_standard_neg_rgb.svg'" class="mt-n2 ml-n2"
@@ -37,7 +35,6 @@
             :style="{ bottom: lgAndUp ? '50px' : '20px', right: lgAndUp ? '50px' : '20px' }" color="primary"></v-btn>
         </template>
       </v-tooltip>
-
     </v-main>
 
 
@@ -45,6 +42,18 @@
 </template>
 
 <script setup>
+import { useRouter } from '#app'
+import { useDisplay } from 'vuetify'
+import { ref } from 'vue'
+import { mdiMagnify, mdiChevronUp } from '@mdi/js'
+
+const router = useRouter()
+const { xs, smAndUp, mdAndUp, lgAndUp } = useDisplay() // Destructure `mdAndUp`
+
+const shrinkAppBar = ref(false) // Define `shrinkAppBar` as a reactive variable
+const showScrollUp = ref(false) // Define `showScrollUp` as a reactive variable
+const show = ref(false)
+
 const onScroll = (event) => {
   const target = event.target?.documentElement;
   if (target.scrollTop >= 10) {
@@ -57,9 +66,11 @@ const onScroll = (event) => {
   }
   useEmit("scrollY", target.scrollTop)
 }
+
 function scrollTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-const showDrawer = true;
+
+const showDrawer = ref(lgAndUp);
 
 </script>
