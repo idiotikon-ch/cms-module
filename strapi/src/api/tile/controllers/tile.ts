@@ -1,4 +1,5 @@
 import { factories } from "@strapi/strapi"
+import { findBySlug } from "../../../utils/findBySlug"
 
 export default factories.createCoreController(
   "api::tile.tile",
@@ -8,14 +9,12 @@ export default factories.createCoreController(
       try {
         const { slug } = ctx.params
 
-        // Query the database for the tile with the given slug
-        const result = await strapi.db.query("api::tile.tile").findOne({
-          where: { slug },
+        // Use the generalized findBySlug utility
+        const result = await findBySlug({
+          strapi,
+          slug,
+          collectionType: "tile",
         })
-
-        if (!result) {
-          return ctx.notFound("Tile not found")
-        }
 
         ctx.body = result
       } catch (err) {
