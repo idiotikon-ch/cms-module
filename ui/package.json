@@ -20,7 +20,13 @@
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground"
   },
   "dependencies": {
-    "@nuxt/kit": "^4.0.3"
+    "@mdi/font": "^7.4.47",
+    "@nuxt/kit": "^4.0.3",
+    "@strapi/client": "^1.4.0",
+    "sass": "^1.90.0",
+    "sass-loader": "^10.5.2",
+    "vue-markdown-render": "^2.2.1",
+    "vuetify": "^3.9.5"
   },
   "devDependencies": {
     "@nuxt/devtools": "^2.6.2",
