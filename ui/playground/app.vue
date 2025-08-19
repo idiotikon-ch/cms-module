@@ -19,7 +19,7 @@
     <v-navigation-drawer v-model="showDrawer">
       <v-list>
         <v-list-item link @click="router.push({ name: 'index' })" title="Home"></v-list-item>
-        <v-list-item link @click="router.push({ name: 'tiles' })" title="More tiles"></v-list-item>
+        <v-list-item link @click="router.push({ name: 'tiles' })" title="Tiles"></v-list-item>
         <v-list-item link @click="router.push({ name: 'about' })" title="About"></v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -64,7 +64,7 @@ const onScroll = (event) => {
     shrinkAppBar.value = false;
     showScrollUp.value = false;
   }
-  useEmit("scrollY", target.scrollTop)
+  // useEmit("scrollY", target.scrollTop)
 }
 
 function scrollTop() {
