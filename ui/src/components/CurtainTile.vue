@@ -25,18 +25,37 @@
 <script lang="ts" setup>
 import VueMarkdown from "vue-markdown-render"
 import { useDisplay } from "vuetify"
+import mitt from "mitt"; // Import mitt for event bus functionality
+import { ref, onMounted, onUnmounted } from "vue"; // Import Vue composition API functions
 
 const { isDesktop } = useDevice()
 const runtimeConfig = useRuntimeConfig()
 const cmsImagesUrl = runtimeConfig.public.strapi.url
-const { tile } = defineProps(["tile"])
+const { tile, eventBus: providedEventBus } = defineProps({
+  tile: Object,
+  eventBus: {
+    type: Object,
+    required: false,
+    default: () => null,
+  },
+});
+
 const imgUrl = ref(`${cmsImagesUrl}${tile.picture.url}`)
 const cardRef = ref()
 const inViewport = ref(false)
 const { height } = useDisplay()
+
+// Use provided event bus or create a local instance
+const eventBus = providedEventBus || mitt();
+
 onMounted(function () {
   if (!isDesktop) {
-    useListen("scrollY", function () {
+    // Emit scrollY events using the event bus
+    window.addEventListener("scroll", () => {
+      eventBus.emit("scrollY", window.scrollY);
+    });
+
+    eventBus.on("scrollY", function () {
       const bounds = cardRef.value.$el.getBoundingClientRect()
       if (bounds.top > height.value / 2) {
         // upper bound of card under display middle: hidden
@@ -50,10 +69,17 @@ onMounted(function () {
         // lower bound over display middle: hide
         inViewport.value = false
       }
-    })
+    });
   }
 })
-onUnmounted(() => stopListen("scrollY"))
+
+onUnmounted(() => {
+  // Clean up event listeners
+  eventBus.off("scrollY");
+  window.removeEventListener("scroll", () => {
+    eventBus.emit("scrollY", window.scrollY);
+  });
+})
 </script>
 <style scoped>
 .curtain {
