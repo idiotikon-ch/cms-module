@@ -1,4 +1,4 @@
-## Database
+## database
 
 using sqlite for playground
 
