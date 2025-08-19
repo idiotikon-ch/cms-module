@@ -1,9 +1,6 @@
 <template>
-    <v-card @click="dialog = true" class="flex w-100 sidebar">
-        <v-card-title class="text-h5 text-wrap">
-            <vue-markdown :source="thumb.title || ''" :options="{ html: true }" />
-        </v-card-title>
-        <v-img :src="`${cmsImagesUrl}${thumb.picture.url}`" cover></v-img>
+    <v-card @click="dialog = true" class="flex w-100 sidebar tile-card">
+        <v-img :src="`${cmsImagesUrl}${thumb.picture.url}`" cover class="tile-image"></v-img>
     </v-card>
     <idiCmsImageViewer :wordStory="wordstory" :images="[thumb]" v-model="dialog"></idiCmsImageViewer>
 </template>
@@ -29,6 +26,19 @@ const cmsImagesUrl = useRuntimeConfig().public.strapi.url
 <style scoped>
 .sidebar {
     width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.tile-card {
+    width: 100%;
     max-width: 400px;
+    min-width: 300px;
+}
+
+.tile-image {
+    flex-grow: 1;
+    width: 100%;
+    height: auto;
 }
 </style>
