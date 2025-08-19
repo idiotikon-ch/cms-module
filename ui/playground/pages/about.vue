@@ -1,6 +1,9 @@
 <template>
     <div>
-        <h1>About Page</h1>
-        <p>This is the About Page.</p>
+        <p>Is Desktop: {{ isDesktop }}</p>
     </div>
 </template>
+
+<script setup>
+const { isDesktop } = useDevice();
+</script>

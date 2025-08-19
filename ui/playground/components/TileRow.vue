@@ -2,7 +2,8 @@
   <v-row>
     <v-col cols="12" sm="6" md="4" class="flex d-flex">
       <div v-if="tile">
-        <idiCmsGeneralTile :tile="tile"></idiCmsGeneralTile>
+        <idiCmsGeneralTile :tile="tile">
+        </idiCmsGeneralTile>
       </div>
       <div v-else>
         Tile 1 not found.
@@ -16,6 +17,14 @@
         Tile 2 not found.
       </div>
     </v-col>
+    <!-- <v-col cols="12" sm="6" md="4" class="flex d-flex">
+      <div v-if="tile2">
+        <idiCmsCurtainTile :tile="tile2"></idiCmsCurtainTile>
+      </div>
+      <div v-else>
+        Tile 2 not found.
+      </div>
+    </v-col> -->
   </v-row>
 </template>
 

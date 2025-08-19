@@ -2,13 +2,13 @@
 export default defineNuxtConfig({
   modules: ["@nuxtjs/strapi"],
   ssr: false,
-  css: ['vuetify/styles'],
+  css: ["vuetify/styles"],
   build: {
-   transpile: ['vuetify'],
+    transpile: ["vuetify"],
   },
   vite: {
     define: {
-      'process.env.DEBUG': false,
+      "process.env.DEBUG": false,
     },
   },
 })

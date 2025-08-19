@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ["../src/module", "@nuxtjs/strapi"],
+  modules: ["../src/module", "@nuxtjs/strapi", "@nuxtjs/device"],
   strapi: {},
   ssr: false,
   idiCmsModule: {},
