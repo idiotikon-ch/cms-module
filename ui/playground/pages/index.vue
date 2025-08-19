@@ -7,5 +7,3 @@ import TileRow from '~/components/TileRow.vue'
         <TileRow></TileRow>
     </v-container>
 </template>
-
-<script lang="ts" setup></script>
