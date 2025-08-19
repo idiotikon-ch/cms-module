@@ -16,8 +16,6 @@
           <vue-markdown :source="tile.title" class="text-center text-h5 font-weight-bold" />
           <vue-markdown class="text-body-2" :style="{ opacity: isHovering || inViewport ? 1 : 0 }"
             :source="tile.content" />
-          <vue-markdown v-if="!tile.tile_category" source="Zum Projekt" class="font-weight-bold"
-            :style="{ fontSize: '0.875rem' }" />
         </div>
       </v-img>
     </v-card>
@@ -26,6 +24,7 @@
 
 <script lang="ts" setup>
 import VueMarkdown from "vue-markdown-render"
+import { useDisplay } from "vuetify"
 
 const { isDesktop } = useDevice()
 const runtimeConfig = useRuntimeConfig()

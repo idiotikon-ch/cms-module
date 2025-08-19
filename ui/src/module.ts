@@ -26,5 +26,6 @@ export default defineNuxtModule<ModuleOptions>({
     })
     addPlugin(resolver.resolve("./runtime/plugin"))
     await installModule("@nuxtjs/device", { append: true })
+    await installModule("@nuxtjs/strapi", { append: true })
   },
 })
