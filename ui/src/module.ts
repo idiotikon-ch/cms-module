@@ -2,6 +2,7 @@ import { resolve } from "node:path"
 import {
   defineNuxtModule,
   addPlugin,
+  installModule,
   createResolver,
   addComponentsDir,
 } from "@nuxt/kit"
@@ -16,14 +17,14 @@ export default defineNuxtModule<ModuleOptions>({
   },
   // Default configuration options of the Nuxt module
   defaults: {},
-  setup(moduleOptions, nuxt) {
+  async setup(moduleOptions, nuxt) {
     const resolver = createResolver(import.meta.url)
-
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
     addComponentsDir({
       path: resolver.resolve("./components"),
       prefix: "idiCms",
     })
     addPlugin(resolver.resolve("./runtime/plugin"))
+    await installModule("@nuxtjs/device", { append: true })
   },
 })
