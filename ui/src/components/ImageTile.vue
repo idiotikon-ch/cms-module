@@ -1,37 +1,33 @@
 <template>
-    <v-card @click="dialog = true" class="flex w-100 sidebar tile-card">
-
-        <template v-slot:default="">
-            <v-btn disabled color="black" v-show=true
-                :style="{ zIndex: 1000, bottom: '10%', right: '10%', opacity: 0.6 }" position="absolute" variant="flat"
-                :icon="mdiMagnifyExpand"></v-btn>
-            <v-img :src="`${cmsImagesUrl}${thumb.picture.url}`" cover class="tile-image"></v-img>
-        </template>
-
+    <v-card @click="dialog = true" class="sidebar tile-card">
+        <v-img :src="imageUrl" cover class="tile-image" />
     </v-card>
-    <idiCmsImageViewer :wordStory="wordstory" :images="[thumb]" v-model="dialog"></idiCmsImageViewer>
+    <idiCmsImageViewer :wordStory="wordstory" :images="[tile]" v-model="dialog"></idiCmsImageViewer>
 </template>
 
 <script setup lang="ts">
-import { mdiMagnifyExpand } from '@mdi/js';
-// import { useDisplay } from "vuetify"
-import VueMarkdown from 'vue-markdown-render';
+import { ref, computed } from 'vue'
 
 const props = defineProps({
-    thumb: {
+    tile: {
         type: Object,
-        required: true
+        required: true,
     },
     wordstory: {
         type: Boolean,
-        default: false
-    }
+        default: false,
+    },
 })
 
-// const { isMobileOrTablet } = useDisplay()
-
 const dialog = ref(false)
-const cmsImagesUrl = useRuntimeConfig().public.strapi.url
+const runtime = useRuntimeConfig()
+const base = runtime.public.strapi.url || ''
+
+const imageUrl = computed(() => {
+    const p = props.tile?.picture
+    if (!p) return ''
+    return base + (p.url || p.formats?.thumbnail?.url || '')
+})
 </script>
 
 <style scoped>
@@ -43,13 +39,13 @@ const cmsImagesUrl = useRuntimeConfig().public.strapi.url
 
 .tile-card {
     width: 100%;
-    max-width: 400px;
-    min-width: 300px;
+    min-height: 220px;
+    /* ensure tiles without text don't collapse */
 }
 
 .tile-image {
-    flex-grow: 1;
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
 }
 </style>
