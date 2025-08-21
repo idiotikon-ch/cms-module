@@ -3,13 +3,9 @@
         <v-hover v-slot="{ isHovering, props }">
             <v-card v-bind="props" @click="dialog = true" class="w-100 tile-card" style="position: relative;">
                 <v-img :src="imageUrl" cover class="tile-image" />
-                <v-btn
-                    v-show="isHovering"
-                    color="black"
-                    variant="flat"
+                <v-btn v-show="isHovering" color="black" variant="flat"
                     :style="{ zIndex: 1000, bottom: '10%', right: '10%', opacity: 0.6, position: 'absolute' }"
-                    :icon="mdiMagnifyExpand"
-                ></v-btn>
+                    :icon="mdiMagnifyExpand"></v-btn>
             </v-card>
         </v-hover>
         <idiCmsImageViewer :compactLegend="compactLegend" :images="images" v-model="dialog"></idiCmsImageViewer>
