@@ -10,10 +10,10 @@
                 <v-sheet v-if="img.title" class="title-sheet" v-show="handlers">
                     <div class="title-text" v-html="img.title" />
                 </v-sheet>
-                <v-sheet v-if="handlers && img.legend" class="legend-sheet" :style="{
+                <v-sheet v-if="handlers && (img.legend || img.content)" class="legend-sheet" :style="{
                     minHeight: compactLegend ? '' : '180px',
                 }">
-                    <div class="legend-text" v-html="img.legend" />
+                    <div class="legend-text" v-html="img.legend || img.content" />
                 </v-sheet>
             </v-carousel-item>
             <template v-slot:prev="{ props }">
