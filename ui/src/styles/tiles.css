@@ -13,18 +13,23 @@
    Ensures the image occupies available vertical space even if body is empty. */
 .tile-image {
   width: 100%;
-  /* Use flex so the image can grow/shrink inside the card */
-  flex: 1 1 auto;
-  min-height: 140px;
+  /* Default: do not flex-grow so cards with an image + body keep the body visible */
+  flex: 0 0 auto;
   object-fit: cover;
   display: block;
+}
+
+/* Modifier to allow the image area to flex/grow and fill available card space */
+.tile-image--fill {
+  flex: 1 1 auto;
+  min-height: 140px;
 }
 
 /* Optional utility: content area that should not collapse */
 .tile-body {
   padding: 0.5rem;
   /* Keep body from forcing the card to collapse when empty */
-  min-height: 48px;
+  min-height: 72px;
 }
 
 /* Ensure Vuetify v-img / img tags inside the tile behave consistently */

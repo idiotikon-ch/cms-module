@@ -2,7 +2,7 @@
     <div class="image-tile-root w-100">
         <v-hover v-slot="{ isHovering, props }">
             <v-card v-bind="props" @click="dialog = true" class="w-100 tile-card" style="position: relative;">
-                <v-img :src="imageUrl" cover class="tile-image" />
+                <v-img :src="imageUrl" cover class="tile-image tile-image--fill" />
                 <v-btn v-show="isHovering" color="black" variant="flat"
                     :style="{ zIndex: 1000, bottom: '10%', right: '10%', opacity: 0.6, position: 'absolute' }"
                     :icon="mdiMagnifyExpand"></v-btn>

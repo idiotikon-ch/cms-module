@@ -5,7 +5,7 @@
       <vue-markdown :source="tile.title || ''" :options="{ html: true }" />
     </v-card-title>
     <v-img :src="imageUrl" cover class="tile-image"></v-img>
-    <v-card-text v-if="tile.content" class="text-wrap">
+    <v-card-text v-if="tile.content" class="text-wrap tile-body">
       <vue-markdown :source="tile.content || ''" :options="{ html: true }" />
     </v-card-text>
   </v-card>
@@ -17,7 +17,7 @@
     <v-card-title class="text-h5 text-wrap"><vue-markdown :source="tile.title || ''" :options="{ html: true }" />
     </v-card-title>
     <v-img :src="imageUrl" cover class="tile-image"></v-img>
-    <v-card-text v-if="tile.content" class="text-wrap">
+    <v-card-text v-if="tile.content" class="text-wrap tile-body">
       <vue-markdown :source="tile.content || ''" :options="{ html: true }" />
     </v-card-text>
   </v-card>

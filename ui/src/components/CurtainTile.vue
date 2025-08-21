@@ -7,7 +7,7 @@
         },
       })
       ">
-      <v-img cover :src="imgUrl" class="tile-image" :gradient="tile.tile_category ? '' : 'rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)'
+      <v-img cover :src="imgUrl" class="tile-image tile-image--fill" :gradient="tile.tile_category ? '' : 'rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)'
         ">
         <div class="px-5 pt-5 curtain text-wrap h-100" :class="isHovering || inViewport ? 'bg-primary' : ''" :style="{
           transform: isHovering || inViewport ? '' : 'translateY(45%)',
