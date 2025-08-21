@@ -6,7 +6,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
+import { useTile } from '../composables/useTile'
 
 const props = defineProps({
     tile: {
@@ -20,32 +21,9 @@ const props = defineProps({
 })
 
 const dialog = ref(false)
-const runtime = useRuntimeConfig()
-const base = runtime.public.strapi.url || ''
-
-const imageUrl = computed(() => {
-    const p = props.tile?.picture
-    if (!p) return ''
-    return base + (p.url || p.formats?.thumbnail?.url || '')
-})
+const { imageUrl } = useTile(props.tile)
 </script>
 
 <style scoped>
-.sidebar {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.tile-card {
-    width: 100%;
-    min-height: 220px;
-    /* ensure tiles without text don't collapse */
-}
-
-.tile-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+@import '../styles/tiles.css';
 </style>

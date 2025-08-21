@@ -1,13 +1,13 @@
 <template>
   <v-hover v-slot="{ isHovering, props }">
-    <v-card ref="cardRef" class="flex w-100" v-bind="props" external @click="
+    <v-card ref="cardRef" class="flex w-100 tile-card" v-bind="props" external @click="
       navigateTo(tile.link, {
         open: {
           target: tile.link_target_type,
         },
       })
       ">
-      <v-img cover :src="imgUrl" class="h-100" :gradient="tile.tile_category ? '' : 'rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)'
+      <v-img cover :src="imgUrl" class="tile-image" :gradient="tile.tile_category ? '' : 'rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)'
         ">
         <div class="px-5 pt-5 curtain text-wrap h-100" :class="isHovering || inViewport ? 'bg-primary' : ''" :style="{
           transform: isHovering || inViewport ? '' : 'translateY(45%)',
@@ -27,10 +27,9 @@ import VueMarkdown from "vue-markdown-render"
 import { useDisplay } from "vuetify"
 import mitt from "mitt"; // Import mitt for event bus functionality
 import { ref, onMounted, onUnmounted } from "vue"; // Import Vue composition API functions
+import { useTile } from '../composables/useTile'
 
 const { isDesktop } = useDevice()
-const runtimeConfig = useRuntimeConfig()
-const cmsImagesUrl = runtimeConfig.public.strapi.url
 const { tile, eventBus: providedEventBus } = defineProps({
   tile: Object,
   eventBus: {
@@ -40,7 +39,8 @@ const { tile, eventBus: providedEventBus } = defineProps({
   },
 });
 
-const imgUrl = ref(`${cmsImagesUrl}${tile.picture.url}`)
+const { imageUrl } = useTile(tile)
+const imgUrl = ref(imageUrl.value)
 const cardRef = ref()
 const inViewport = ref(false)
 const { height } = useDisplay()
@@ -82,6 +82,8 @@ onUnmounted(() => {
 })
 </script>
 <style scoped>
+@import '../styles/tiles.css';
+
 .curtain {
   color: white;
   justify-content: center;

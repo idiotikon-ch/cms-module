@@ -24,8 +24,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
 import VueMarkdown from 'vue-markdown-render'
+import { useTile } from '../composables/useTile'
 
 const props = defineProps({
   tile: {
@@ -34,31 +34,9 @@ const props = defineProps({
   },
 })
 
-const runtimeConfig = useRuntimeConfig()
-const base = runtimeConfig.public.strapi.url || ''
-
-const imageUrl = computed(() => {
-  const p = props.tile?.picture
-  if (!p) return ''
-  return base + (p.url || p.formats?.thumbnail?.url || '')
-})
+const { imageUrl } = useTile(props.tile)
 </script>
 
 <style scoped>
-.sidebar {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.tile-card {
-  width: 100%;
-  min-height: 220px;
-}
-
-.tile-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+@import '../styles/tiles.css';
 </style>
