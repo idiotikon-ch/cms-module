@@ -16,13 +16,7 @@
       </v-app-bar-title>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="showDrawer">
-      <v-list>
-        <v-list-item link @click="router.push({ name: 'index' })" title="Home"></v-list-item>
-        <v-list-item link @click="router.push({ name: 'tiles' })" title="Tiles"></v-list-item>
-        <v-list-item link @click="router.push({ name: 'about' })" title="About"></v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+    <IdiCmsNavDrawer :items="menuItems" :open="showDrawer" @toggle="handleToggle" @select="handleSelect" />
 
     <v-main v-scroll="onScroll" class="d-flex align-center flex-column">
       <v-container fluid class="my-10" :style="{ width: mdAndUp && !showDrawer ? '70%' : '90%', maxWidth: '1150px' }">
@@ -44,8 +38,19 @@
 <script setup>
 import { useRouter } from '#app'
 import { useDisplay } from 'vuetify'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { mdiMagnify, mdiChevronUp } from '@mdi/js'
+
+// optional: try to use the project's Strapi composable if available
+let useStrapiAvailable = false
+try {
+  // dynamic require can fail in the playground; guard it
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const maybe = require('~/src/composables/useStrapi')
+  if (maybe) useStrapiAvailable = true
+} catch (e) {
+  useStrapiAvailable = false
+}
 
 const router = useRouter()
 const { xs, smAndUp, mdAndUp, lgAndUp } = useDisplay() // Destructure `mdAndUp`
@@ -71,6 +76,47 @@ function scrollTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-const showDrawer = ref(lgAndUp);
+const showDrawer = ref(lgAndUp.value);
+
+const menuItems = ref([
+  { title: 'Home', link: { name: 'index' }, icon: 'mdi-home-outline' },
+  { title: 'Tiles', link: { name: 'tiles' }, icon: 'mdi-view-module' },
+  { title: 'About', link: { name: 'about' }, icon: 'mdi-information-outline' },
+]);
+
+function handleToggle(val) {
+  showDrawer.value = val;
+}
+
+function handleSelect(payload) {
+  // payload: { item, link }
+  const link = payload?.link || payload?.item?.link || payload?.item?.path;
+  if (link) {
+    // prefer named routes when possible
+    try {
+      router.push(link)
+    } catch (e) {
+      // fallback: ignore
+    }
+  }
+}
+
+onMounted(async () => {
+  if (!useStrapiAvailable) return;
+  try {
+    // import the composable dynamically
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const { useStrapi } = require('~/src/composables/useStrapi')
+    const { find } = useStrapi()
+    const res = await find('menus', {
+      populate: ['sub_menus', 'sub_menus.sub_menus', 'sub_menus.sub_menus.sub_menus'],
+      filters: { title: { $eq: 'root' } },
+    })
+    const items = res?.data?.[0]?.sub_menus || menuItems.value
+    menuItems.value = items
+  } catch (e) {
+    // ignore fetch errors and keep fallback
+  }
+})
 
 </script>
