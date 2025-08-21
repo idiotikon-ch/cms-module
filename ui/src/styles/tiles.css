@@ -1,0 +1,36 @@
+.tile-card {
+  width: 100%;
+  /* Provide a sensible minimum so empty cards keep visual space */
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  /* Let cards grow to fill parent row columns when used inside flex/grid */
+  flex: 1 1 0;
+  box-sizing: border-box;
+}
+
+/* Make the image area participate in the card's flex layout.
+   Ensures the image occupies available vertical space even if body is empty. */
+.tile-image {
+  width: 100%;
+  /* Use flex so the image can grow/shrink inside the card */
+  flex: 1 1 auto;
+  min-height: 140px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Optional utility: content area that should not collapse */
+.tile-body {
+  padding: 0.5rem;
+  /* Keep body from forcing the card to collapse when empty */
+  min-height: 48px;
+}
+
+/* Ensure Vuetify v-img / img tags inside the tile behave consistently */
+.tile-card img,
+.tile-card .v-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}

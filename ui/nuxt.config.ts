@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   modules: ["@nuxtjs/strapi"],
   ssr: false,
-  css: ["vuetify/styles"],
+  css: ["vuetify/styles", "~/src/styles/tiles.css"],
   build: {
     transpile: ["vuetify"],
   },

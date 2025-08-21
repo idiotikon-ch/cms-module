@@ -37,6 +37,4 @@ const props = defineProps({
 const { imageUrl } = useTile(props.tile)
 </script>
 
-<style scoped>
-@import '../styles/tiles.css';
-</style>
+<style scoped></style>

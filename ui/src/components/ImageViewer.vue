@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import { mdiChevronLeft, mdiChevronRight, mdiClose } from '@mdi/js';
-import { ref, watch, onMounted, onUnmounted } from 'vue';
+import { ref, watch, onMounted, onUnmounted, computed } from 'vue';
 
 /**
  * Props:
@@ -61,8 +61,11 @@ const props = defineProps({
     },
 });
 
-const model = defineModel();
 const emit = defineEmits(['update:modelValue']);
+const model = computed({
+    get: () => props.modelValue,
+    set: (v) => emit('update:modelValue', v),
+});
 const handlers = ref(true);
 const { index } = toRefs(props);
 const cmsImagesUrl = useRuntimeConfig().public.strapi.url;

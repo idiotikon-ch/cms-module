@@ -21,6 +21,4 @@ function onClick(e: Event) {
 }
 </script>
 
-<style scoped>
-@import '../styles/tiles.css';
-</style>
+<style scoped></style>

@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col v-for="(tile, index) in tiles" :key="index" cols="12" sm="6" md="4" class="flex d-flex">
-      <div v-if="tile">
+      <div v-if="tile" class="d-flex w-100">
         <idiCmsGeneralTile :tile="tile" />
       </div>
       <div v-else>
@@ -9,7 +9,7 @@
       </div>
     </v-col>
     <v-col v-for="(tile, index) in tiles" :key="`curtain-${index}`" cols="12" sm="6" md="4" class="flex d-flex">
-      <div v-if="tile">
+      <div v-if="tile" class="d-flex w-100">
         <idiCmsCurtainTile :tile="tile" />
       </div>
       <div v-else>
@@ -17,8 +17,8 @@
       </div>
     </v-col>
     <v-col v-for="(tile, index) in tiles" :key="`image-${index}`" cols="12" sm="6" md="4" class="flex d-flex">
-      <div v-if="tile">
-        <idiCmsImageTile :thumb="{ picture: { url: tile.picture.url } }" />
+      <div v-if="tile" class="d-flex w-100">
+        <idiCmsImageTile :tile="tile" />
       </div>
       <div v-else>
         Image: Tile {{ index + 1 }} not found.

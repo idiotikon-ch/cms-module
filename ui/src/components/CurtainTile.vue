@@ -82,8 +82,6 @@ onUnmounted(() => {
 })
 </script>
 <style scoped>
-@import '../styles/tiles.css';
-
 .curtain {
   color: white;
   justify-content: center;
