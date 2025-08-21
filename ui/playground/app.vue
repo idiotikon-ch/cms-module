@@ -4,15 +4,17 @@
     <v-app-bar color="primary" :extended="!smAndUp && shrinkAppBar ? false : true" class="pr-4" density="compact">
       <v-app-bar-nav-icon @click="showDrawer = !showDrawer" :class="xs ? 'mt-2' : 'mt-8'">
       </v-app-bar-nav-icon>
-      <v-app-bar-title @click="router.push({ name: 'index' })" class="align-self-start" :class="xs ? 'ml-0' : 'ml-2'">
-        <a href="/">
+      <v-app-bar-title @click="router.push({ name: 'index' })" class="align-self-start"
+        :class="xs ? 'ml-0' : 'ml-2 mt-5'">
+        <!-- <a href="/">
           <v-img v-if="xs && !shrinkAppBar" to="/" :src="'/static/img/si_logo_standard_neg_rgb.svg'" class="mt-n2 ml-n2"
             position="left top" height="90px"></v-img>
           <v-img v-else-if="xs && shrinkAppBar" to="/" :src="'/static/img/si_logo_neg_rgb.svg'" class="mt-2 ml-2"
             position="left top" height="31px"></v-img>
           <v-img v-else to="/" :src="'/static/img/si_logo_1z_neg_rgb.svg'" class="mt-1" position="left top"
             height="70px"></v-img>
-        </a>
+        </a> -->
+        <h2>Kleiner Sprachatlas der deutschen Schweiz</h2>
       </v-app-bar-title>
     </v-app-bar>
 
@@ -79,9 +81,12 @@ function scrollTop() {
 const showDrawer = ref(lgAndUp.value);
 
 const menuItems = ref([
-  { title: 'Home', link: { name: 'index' }, icon: 'mdi-home-outline' },
-  { title: 'Tiles', link: { name: 'tiles' }, icon: 'mdi-view-module' },
-  { title: 'About', link: { name: 'about' }, icon: 'mdi-information-outline' },
+  { title: 'Start', link: { name: 'index' }, icon: 'mdi-home-outline' },
+  { title: 'Sprachatlas', link: { name: 'tiles' }, icon: 'mdi-view-module' },
+  { title: 'Karten', link: { name: 'maps' }, icon: 'mdi-map' },
+  { title: 'Für Schulen', link: { name: 'schools' }, icon: 'mdi-school' },
+  { title: 'Downloads', link: { name: 'downloads' }, icon: 'mdi-download' },
+  { title: 'Kontakt', link: { name: 'contact' }, icon: 'mdi-contact-mail' }
 ]);
 
 function handleToggle(val) {
