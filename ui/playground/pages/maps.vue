@@ -1,5 +1,9 @@
 <template>
     <v-row>
+        <v-col :key="text" cols="12">
+            {{ text }}
+        </v-col>
+
         <v-col :key="tile" cols="12" sm="6" md="4" class="flex d-flex">
             <div v-if="tile"
                 :class="['tile-wrapper', { 'tile-wrapper--no-stretch': tile.link_target_type !== 'image' }, 'd-flex', 'w-100']">
@@ -19,13 +23,16 @@
 
 const { isDesktop } = useDevice();
 import { fetchTile } from '../utils/tileFetchers';
+import { fetchBySlug } from '../utils/fetcher';
+
 import { ref } from 'vue';
 
 const tile = ref();
 const tile2 = ref();
-
+const text = ref();
 fetchTile("statische-karten", tile);
 fetchTile("test-tile-1", tile2);
+fetchBySlug("text", "karten", text);
 // const tiles = ref([tile, tile2]);
 
 </script>

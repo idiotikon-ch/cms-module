@@ -7,6 +7,7 @@ const tile = ref();
 const tile2 = ref();
 
 fetchTile("another-tile", tile);
+console.log(tile.value);
 fetchTile("test-tile-1", tile2);
 </script>
 
