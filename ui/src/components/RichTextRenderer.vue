@@ -87,8 +87,12 @@ const groupedBlocks = computed(() => groupBlocks(props.content))
 .image-tile-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.5rem;
     align-items: flex-start;
+}
+
+.image-tile-root.w50 {
+    width: calc(50% - 0.25rem);
 }
 </style>
 
