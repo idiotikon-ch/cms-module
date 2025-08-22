@@ -31,7 +31,7 @@
 
             <!-- Strapi dynamic zone: image tile reference block -->
             <template v-else-if="block.__component && block.__component.includes('image-tile-reference')">
-                <ImageTileLoader :block="block" />
+                <ImageTileLoader :block="block" :size="block.size || 'default'" />
             </template>
 
             <!-- Fallback: render nothing or add more block types as needed -->

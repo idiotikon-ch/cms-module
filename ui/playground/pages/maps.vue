@@ -1,6 +1,5 @@
 <template>
     <v-row>
-        <pre v-if="text && text.content">{{ text.content }}</pre>
         <v-col :key="text" cols="12">
             <div class="article-body">
                 <h1 v-if="text && text.title">{{ text.title }}</h1>

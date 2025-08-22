@@ -1,5 +1,5 @@
 <template>
-    <div class="image-tile-root w-100">
+    <div :class="['image-tile-root', size]">
         <v-hover v-slot="{ isHovering, props }">
             <v-card v-bind="props" @click="dialog = true" class="w-100 tile-card" style="position: relative;">
                 <v-img :src="imageUrl" cover class="tile-image tile-image--fill" />
@@ -27,6 +27,11 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    size: {
+        type: String,
+        default: 'w100',
+        validator: (val: string) => ['w100', 'w50', 'w30', 'w25', 'w20'].includes(val)
+    }
 })
 
 const dialog = ref(false)
@@ -48,4 +53,10 @@ const images = computed(() => {
 }
 
 /* Rely on global tiles.css for .tile-image so flex/min-height rules apply consistently */
+
+.image-tile-root.w100 { width: 100%; }
+.image-tile-root.w50  { width: 50%; }
+.image-tile-root.w30  { width: 30%; }
+.image-tile-root.w25  { width: 25%; }
+.image-tile-root.w20  { width: 20%; }
 </style>

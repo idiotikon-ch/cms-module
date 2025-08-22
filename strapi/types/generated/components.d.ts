@@ -8,6 +8,7 @@ export interface SharedImageTileReference extends Struct.ComponentSchema {
     icon: 'seed';
   };
   attributes: {
+    size: Schema.Attribute.Enumeration<['w100', 'w50', 'w30', 'w25', 'w20']>;
     tile: Schema.Attribute.Relation<'oneToMany', 'api::tile.tile'>;
   };
 }
