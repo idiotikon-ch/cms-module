@@ -31,7 +31,7 @@ const tile2 = ref();
 const text = ref();
 fetchTile("statische-karten", tile);
 fetchDocument("tiles", "test-tile-1", tile2, ["picture"]);
-fetchDocument("text", "karten", text);
+fetchDocument("texts", "karten", text);
 
 // fetchBySlug("text", "karten", text);
 // const tiles = ref([tile, tile2]);

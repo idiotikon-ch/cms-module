@@ -541,7 +541,6 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
 export interface ApiTextText extends Struct.CollectionTypeSchema {
   collectionName: 'texts';
   info: {
-    description: '';
     displayName: 'Text';
     pluralName: 'texts';
     singularName: 'text';
