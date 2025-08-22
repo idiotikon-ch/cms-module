@@ -22,8 +22,7 @@
 <script setup lang="ts">
 
 const { isDesktop } = useDevice();
-import { fetchTile } from '../utils/tileFetchers';
-import { fetchBySlug } from '../utils/fetcher';
+import { fetchTile, fetchDocument } from '../utils/tileFetchers';
 
 import { ref } from 'vue';
 
@@ -31,8 +30,10 @@ const tile = ref();
 const tile2 = ref();
 const text = ref();
 fetchTile("statische-karten", tile);
-fetchTile("test-tile-1", tile2);
-fetchBySlug("text", "karten", text);
+fetchDocument("tiles", "test-tile-1", tile2, ["picture"]);
+fetchDocument("text", "karten", text);
+
+// fetchBySlug("text", "karten", text);
 // const tiles = ref([tile, tile2]);
 
 </script>
