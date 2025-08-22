@@ -541,6 +541,7 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
 export interface ApiTextText extends Struct.CollectionTypeSchema {
   collectionName: 'texts';
   info: {
+    description: '';
     displayName: 'Text';
     pluralName: 'texts';
     singularName: 'text';
@@ -549,7 +550,9 @@ export interface ApiTextText extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    content: Schema.Attribute.Blocks;
+    content: Schema.Attribute.DynamicZone<
+      ['shared.image-tile-reference', 'shared.rich-text']
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

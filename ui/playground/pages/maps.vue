@@ -1,5 +1,6 @@
 <template>
     <v-row>
+        <pre v-if="text && text.content">{{ text.content }}</pre>
         <v-col :key="text" cols="12">
             <div class="article-body">
                 <h1 v-if="text && text.title">{{ text.title }}</h1>
@@ -38,7 +39,7 @@ const tile2 = ref();
 const text = ref();
 fetchTile("statische-karten", tile);
 fetchDocument("tiles", "test-tile-1", tile2, ["picture"]);
-fetchDocument("texts", "karten", text);
+fetchDocument("texts", "karten", text, { content: { populate: "*" } });
 
 
 const route = useRoute()

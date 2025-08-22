@@ -1,5 +1,17 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface SharedImageTileReference extends Struct.ComponentSchema {
+  collectionName: 'components_shared_image_tile_references';
+  info: {
+    description: '';
+    displayName: 'ImageTile reference';
+    icon: 'seed';
+  };
+  attributes: {
+    tile: Schema.Attribute.Relation<'oneToMany', 'api::tile.tile'>;
+  };
+}
+
 export interface SharedMedia extends Struct.ComponentSchema {
   collectionName: 'components_shared_media';
   info: {
@@ -65,6 +77,7 @@ export interface SharedSlider extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'shared.image-tile-reference': SharedImageTileReference;
       'shared.media': SharedMedia;
       'shared.quote': SharedQuote;
       'shared.rich-text': SharedRichText;
