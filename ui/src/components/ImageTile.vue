@@ -54,9 +54,23 @@ const images = computed(() => {
 
 /* Rely on global tiles.css for .tile-image so flex/min-height rules apply consistently */
 
-.image-tile-root.w100 { width: 100%; }
-.image-tile-root.w50  { width: 50%; }
-.image-tile-root.w30  { width: 30%; }
-.image-tile-root.w25  { width: 25%; }
-.image-tile-root.w20  { width: 20%; }
+.image-tile-root.w100 {
+    width: 100%;
+}
+
+.image-tile-root.w50 {
+    width: 50%;
+}
+
+.image-tile-root.w30 {
+    width: 30%;
+}
+
+.image-tile-root.w25 {
+    width: 25%;
+}
+
+.image-tile-root.w20 {
+    width: 20%;
+}
 </style>
