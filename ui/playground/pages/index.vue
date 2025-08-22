@@ -1,51 +1,41 @@
+<script setup lang="ts">
+import TileRow from '~/components/TileRow.vue';
+import { fetchTile } from '../utils/tileFetchers';
+import { ref } from 'vue';
+import { IdiCmsCurtainTile } from '#components';
+
+const tile = ref();
+const tile2 = ref();
+const tile3 = ref();
+
+fetchTile("klein-u-gross", tile);
+fetchTile("ksds-k", tile2);
+fetchTile("karten", tile3);
+</script>
+
+
 <template>
     <v-container class="text-center">
         <v-row>
-            <v-col>
-                <h1>Welcome to the Playground App</h1>
-                <p>
-                    This application is designed to showcase and test various components from the UI module.
-                </p>
-                <p>
-                    Use this environment to explore, debug, and refine components before integrating them into a main
-                    application.
-                </p>
+            <v-col cols="12">
+                <img src="https://kleinersprachatlas.ch/images/home/pfuetze_home.png" alt="Header Image"
+                    style="width: 100%; height: auto; object-fit: cover; margin-bottom: 2rem;" />
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col v-if="tile">
+                <IdiCmsCurtainTile :tile="tile" />
+            </v-col>
+            <v-col v-if="tile2">
+                <IdiCmsCurtainTile :tile="tile2" />
+            </v-col>
+            <v-col v-if="tile3">
+                <IdiCmsCurtainTile :tile="tile3" />
             </v-col>
         </v-row>
     </v-container>
-
-    <idiCmsAccordion :content="[
-        {
-            title: 'Panel 1',
-            text: 'This is **markdown** content for panel 1.',
-            pictures: [{ picture: { url: '/uploads/img1.jpg' } }],
-            // open: true,
-            icon: 'mdi-book-open',
-            subtitle: 'Optional subtitle',
-            customClass: 'my-panel-class'
-        },
-        {
-            title: 'Panel 2',
-            text: 'Panel 2 content goes here.',
-            pictures: [],
-            open: false
-        }
-    ]" width="80%" backgroundImage="/images/bg.jpg" aria-label="My Custom Accordion"
-        @open="idx => console.log('Panel opened:', idx)" @close="idx => console.log('Panel closed:', idx)">
-        <!-- Optional: Custom slot for a specific panel -->
-        <template #panel-1="{ item }">
-            <div>
-                <h3>Custom Content for Panel 2</h3>
-                <p>{{ item.text }}</p>
-                <!-- You can add more custom markup here -->
-            </div>
-        </template>
-    </idiCmsAccordion>
-
 </template>
 
-<script setup lang="ts">
-</script>
 
 <style scoped>
 h1 {

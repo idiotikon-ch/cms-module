@@ -82,9 +82,9 @@ const showDrawer = ref(lgAndUp.value);
 
 const menuItems = ref([
   { title: 'Start', link: { name: 'index' }, icon: 'mdi-home-outline' },
-  { title: 'Sprachatlas', link: { name: 'tiles' }, icon: 'mdi-view-module' },
+  { title: 'Sprachatlas', link: { name: 'sprachatlas' }, icon: 'mdi-view-module' },
   { title: 'Karten', link: { name: 'maps' }, icon: 'mdi-map' },
-  { title: 'Für Schulen', link: { name: 'schools' }, icon: 'mdi-school' },
+  { title: 'Tiles! Tiles! Tiles!', link: { name: 'tiles' }, icon: 'mdi-school' },
   { title: 'Downloads', link: { name: 'downloads' }, icon: 'mdi-download' },
   { title: 'Kontakt', link: { name: 'contact' }, icon: 'mdi-contact-mail' }
 ]);
