@@ -29,7 +29,7 @@
 import { useDisplay } from 'vuetify'
 const { isDesktop } = useDisplay();
 import { IdiCmsRichTextRenderer } from '#components';
-import { fetchTile, fetchDocument } from '../utils/tileFetchers';
+import { fetchTile, fetchDocument } from '../../utils/tileFetchers';
 
 import { ref } from 'vue';
 
