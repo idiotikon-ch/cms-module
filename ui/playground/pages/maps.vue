@@ -1,6 +1,7 @@
 <template>
     <v-row>
         <v-col :key="text" cols="12">
+            <h1 v-if="text && text.title">{{ text.title }}</h1>
             <idiCmsRichTextRenderer v-if="text && text.content" :content="text.content" />
         </v-col>
 
