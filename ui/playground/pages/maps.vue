@@ -1,7 +1,7 @@
 <template>
     <v-row>
         <v-col :key="text" cols="12">
-            {{ text }}
+            <idiCmsRichTextRenderer v-if="text && text.content" :content="text.content" />
         </v-col>
 
         <v-col :key="tile" cols="12" sm="6" md="4" class="flex d-flex">
@@ -22,6 +22,7 @@
 <script setup lang="ts">
 
 const { isDesktop } = useDevice();
+import { IdiCmsRichTextRenderer } from '#components';
 import { fetchTile, fetchDocument } from '../utils/tileFetchers';
 
 import { ref } from 'vue';
@@ -33,7 +34,5 @@ fetchTile("statische-karten", tile);
 fetchDocument("tiles", "test-tile-1", tile2, ["picture"]);
 fetchDocument("texts", "karten", text);
 
-// fetchBySlug("text", "karten", text);
-// const tiles = ref([tile, tile2]);
-
+console.log(text)
 </script>
