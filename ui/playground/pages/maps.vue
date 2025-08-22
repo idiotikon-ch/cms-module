@@ -1,8 +1,13 @@
 <template>
     <v-row>
         <v-col :key="text" cols="12">
-            <h1 v-if="text && text.title">{{ text.title }}</h1>
-            <idiCmsRichTextRenderer v-if="text && text.content" :content="text.content" />
+            <div class="article-body">
+                <h1 v-if="text && text.title">{{ text.title }}</h1>
+                <idiCmsRichTextRenderer v-if="text && text.content" :content="text.content" />
+                <div v-if="text" class="article-actions mt-4">
+                    <idiCmsShareBtn :url="url" :title="text.title" :excerpt="text.excerpt" />
+                </div>
+            </div>
         </v-col>
 
         <v-col :key="tile" cols="12" sm="6" md="4" class="flex d-flex">
@@ -21,8 +26,8 @@
 </template>
 
 <script setup lang="ts">
-
-const { isDesktop } = useDevice();
+import { useDisplay } from 'vuetify'
+const { isDesktop } = useDisplay();
 import { IdiCmsRichTextRenderer } from '#components';
 import { fetchTile, fetchDocument } from '../utils/tileFetchers';
 
@@ -35,5 +40,11 @@ fetchTile("statische-karten", tile);
 fetchDocument("tiles", "test-tile-1", tile2, ["picture"]);
 fetchDocument("texts", "karten", text);
 
-console.log(text)
+
+const route = useRoute()
+const config = useRuntimeConfig().public
+console.log(config.appBase)
+console.log(route.fullPath)
+const url = computed(() => config.appBase + route.fullPath)
+
 </script>

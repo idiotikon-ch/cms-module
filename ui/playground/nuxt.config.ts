@@ -4,4 +4,9 @@ export default defineNuxtConfig({
   ssr: false,
   idiCmsModule: {},
   devtools: { enabled: true },
+  runtimeConfig: {
+    public: {
+      appBase: "http://localhost:3000",
+    },
+  },
 })
