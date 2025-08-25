@@ -4,17 +4,15 @@
     <v-app-bar color="primary" :extended="!smAndUp && shrinkAppBar ? false : true" class="pr-4" density="compact">
       <v-app-bar-nav-icon @click="showDrawer = !showDrawer" :class="xs ? 'mt-2' : 'mt-8'">
       </v-app-bar-nav-icon>
-      <v-app-bar-title @click="router.push({ name: 'index' })" class="align-self-start"
-        :class="xs ? 'ml-0' : 'ml-2 mt-5'">
-        <!-- <a href="/">
-          <v-img v-if="xs && !shrinkAppBar" to="/" :src="'/static/img/si_logo_standard_neg_rgb.svg'" class="mt-n2 ml-n2"
-            position="left top" height="90px"></v-img>
-          <v-img v-else-if="xs && shrinkAppBar" to="/" :src="'/static/img/si_logo_neg_rgb.svg'" class="mt-2 ml-2"
-            position="left top" height="31px"></v-img>
-          <v-img v-else to="/" :src="'/static/img/si_logo_1z_neg_rgb.svg'" class="mt-1" position="left top"
-            height="70px"></v-img>
-        </a> -->
-        <h2>Kleiner Sprachatlas der deutschen Schweiz</h2>
+      <v-app-bar-title @click="router.push({ name: 'index' })" class="align-self-start mt-2"
+        :class="xs ? 'ml-0' : 'ml-2'">
+        <div class="ksds-logo-flex">
+          <span class="ksds-logo-main">KSDS</span>
+          <div class="ksds-logo-title">
+            <span>Kleiner Sprachatlas</span><br>
+            <span>der deutschen Schweiz</span>
+          </div>
+        </div>
       </v-app-bar-title>
     </v-app-bar>
 
@@ -39,25 +37,6 @@
                 <v-img height="60" :src="'/static/img/SAGW_Logo_addition_supported_sw_pos.svg'"></v-img>
               </v-col>
             </v-row>
-            <!-- <v-row class="ma-0">
-              <v-col class="px-0" cols="6">
-                <div>
-                  <p class="header">Spenden</p>
-                  <p>80-9590-5 (IBAN: CH06 0900 0000 8000 9590 5)<br>
-                    <NuxtLink to="/spenden">Spendenformular</NuxtLink>
-                  </p>
-                </div>
-              </v-col>
-              <v-col class="px-0" cols="6">
-                <div>
-                  <p class="header">English</p>
-                  <NuxtLink to="/english">
-                    <v-icon :icon="mdiTranslateVariant" class="mr-2">
-                    </v-icon>Project Description in English
-                  </NuxtLink>
-                </div>
-              </v-col>
-            </v-row> -->
           </v-card>
         </div>
         <div class="px-4 py-2 w-100 lower_footer">
@@ -203,5 +182,35 @@ onMounted(async () => {
 .upper_footer .v-card .header {
   font-size: 1rem;
   font-weight: bold;
+}
+
+
+
+
+
+
+:deep(.v-toolbar__content) {
+  overflow: visible;
+}
+
+
+
+
+
+
+
+.ksds-logo-flex {
+  display: flex;
+  align-items: center;
+  height: 70px;
+  font-weight: bold;
+}
+
+.ksds-logo-main {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 }
 </style>
