@@ -14,6 +14,12 @@
           </div>
         </div>
       </v-app-bar-title>
+
+      <a href="https://www.idiotikon.ch/" target="_blank">
+        <v-img src="/static/img/si_logo_rund_neg_rgb.svg" class="hidden-xs" width="90" height="90" style="top:20px;"
+          v-show="!shrinkAppBar"></v-img>
+      </a>
+
     </v-app-bar>
 
     <IdiCmsNavDrawer :items="menuItems" :open="showDrawer" @toggle="handleToggle" @select="handleSelect" />
@@ -89,7 +95,7 @@ const show = ref(false)
 const onScroll = (event) => {
   const target = event.target?.documentElement;
   if (target.scrollTop >= 10) {
-    shrinkAppBar.value = true;
+    // shrinkAppBar.value = true;
     showScrollUp.value = true;
   }
   else {
@@ -193,6 +199,9 @@ onMounted(async () => {
   overflow: visible;
 }
 
+.v-toolbar {
+  padding-top: 0 !important;
+}
 
 
 
