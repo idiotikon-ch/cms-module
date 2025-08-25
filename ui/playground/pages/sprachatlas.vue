@@ -10,7 +10,7 @@
 
     <v-row>
         <v-col>
-            <idiCmsAccordion :content="accordionPanels">
+            <idiCmsAccordion :content="accordionPanels" panelTitleBgImage="/tabheader.png">
                 <template #panel-0>
                     <v-img src="https://kleinersprachatlas.ch/images/allgemein/Inhaltsverzeichnis_KSDS.png" width="100%"
                         height="400px" cover />

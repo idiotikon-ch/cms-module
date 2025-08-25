@@ -1,12 +1,10 @@
 <template>
-    <div class="accordion-root"
-        :style="backgroundImage ? { backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat' } : {}"
-        :aria-label="ariaLabel" :role="'region'">
+    <div class="accordion-root" :aria-label="ariaLabel" :role="'region'">
         <v-expansion-panels v-model="panel" variant="accordion" multiple :style="{ width }" class="accordion-panels">
             <v-expansion-panel v-for="(item, i) in content" :id="'q' + (i + 1).toString()" :key="i" ref="hashRefs"
                 :class="item.customClass" :aria-expanded="panel.includes(i)" :aria-controls="'panel-content-' + i"
                 @group:selected="onPanelChange(i, $event)">
-                <v-expansion-panel-title class="idcms_accordion">
+                <v-expansion-panel-title class="idcms_accordion" color="primary">
                     <v-icon v-if="item.icon" class="mr-2">{{ item.icon }}</v-icon>
                     <span>{{ item.title }}</span>
                     <span v-if="item.subtitle" class="subtitle">{{ item.subtitle }}</span>
@@ -50,12 +48,16 @@ const props = defineProps<{
     content: AccordionPanel[],
     width?: string,
     backgroundImage?: string,
-    ariaLabel?: string
+    ariaLabel?: string,
+    panelTitleBgImage?: string,
+    panelTitleBgColor?: string
 }>()
 
 const width = computed(() => props.width || '1000px')
 const backgroundImage = computed(() => props.backgroundImage)
 const ariaLabel = computed(() => props.ariaLabel || 'Accordion')
+const panelTitleBgImage = computed(() => props.panelTitleBgImage)
+const panelTitleBgColor = computed(() => props.panelTitleBgColor || 'var(--v-theme-primary)')
 
 // By default, all panels are collapsed unless 'open' is set to true for a panel
 const openInitial: Array<number> = []
@@ -115,14 +117,24 @@ const emit = defineEmits(['open', 'close'])
 }
 
 .v-expansion-panel {
-    background: rgba(0, 0, 0, 0.7);
+    background: transparent;
     /* fallback for panels over background image */
+}
+
+.v-expansion-panel-text {
+    background: #fff;
 }
 
 .v-expansion-panel-title {
     font-size: 1.1rem;
     font-weight: bold;
     color: white !important;
+    position: relative;
+}
+
+.v-expansion-panel-title__overlay {
+    opacity: 0.5;
+    /* covers the title bar for a semi-transparent overlay */
 }
 
 .v-expansion-panel-title .subtitle {

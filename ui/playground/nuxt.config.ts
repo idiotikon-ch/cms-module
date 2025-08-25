@@ -9,4 +9,5 @@ export default defineNuxtConfig({
       appBase: "http://localhost:3000",
     },
   },
+  css: ["assets/global.scss"],
 })
