@@ -24,6 +24,52 @@
       <v-container fluid class="my-10" :style="{ width: mdAndUp && !showDrawer ? '70%' : '90%', maxWidth: '1150px' }">
         <NuxtPage />
       </v-container>
+
+
+      <v-container class="footer pb-0 pl-0 pr-0">
+        <div class="d-flex w-100 align-center flex-column upper_footer">
+          <v-card class="align-top" :style="{ width: mdAndUp && !showDrawer ? '70%' : '90%', maxWidth: '1150px' }" flat>
+            <v-row class="ma-0">
+              <v-col class="px-0" cols="6">
+                <p class="header">Adresse</p>
+                <idiCmsContactInfo address="Schweizerisches Idiotikon\nAuf der Mauer 5\n8001 Zürich"
+                  email="ksds@idiotikon.ch" phone="+41 (0) 44 251 36 76" />
+              </v-col>
+              <v-col class="sagw px-0" cols="2">
+                <v-img height="60" :src="'/static/img/SAGW_Logo_addition_supported_sw_pos.svg'"></v-img>
+              </v-col>
+            </v-row>
+            <!-- <v-row class="ma-0">
+              <v-col class="px-0" cols="6">
+                <div>
+                  <p class="header">Spenden</p>
+                  <p>80-9590-5 (IBAN: CH06 0900 0000 8000 9590 5)<br>
+                    <NuxtLink to="/spenden">Spendenformular</NuxtLink>
+                  </p>
+                </div>
+              </v-col>
+              <v-col class="px-0" cols="6">
+                <div>
+                  <p class="header">English</p>
+                  <NuxtLink to="/english">
+                    <v-icon :icon="mdiTranslateVariant" class="mr-2">
+                    </v-icon>Project Description in English
+                  </NuxtLink>
+                </div>
+              </v-col>
+            </v-row> -->
+          </v-card>
+        </div>
+        <div class="px-4 py-2 w-100 lower_footer">
+          <p>
+            Copyright © {{ new Date().getFullYear() }} | <NuxtLink to="/datenschutz">Datenschutzerklärung</NuxtLink>
+            |
+            <NuxtLink to="/impressum">Impressum</NuxtLink>
+          </p>
+        </div>
+      </v-container>
+
+
       <v-tooltip v-model="show" location="left">nach oben
         <template v-slot:activator="{ props }">
           <v-btn v-show="showScrollUp" @click="scrollTop" :icon="mdiChevronUp" v-bind="props" density="comfortable"
@@ -125,3 +171,37 @@ onMounted(async () => {
 })
 
 </script>
+
+<style scoped>
+.v-container.footer {
+  max-width: none !important;
+}
+
+.v-container.footer a {
+  color: inherit;
+}
+
+.upper_footer,
+.upper_footer .v-card {
+  background-color: #272c31;
+  color: #C4CED0;
+}
+
+.lower_footer {
+  background-color: #1c1d1f;
+  color: #C4CED0;
+  text-align: center;
+}
+
+.upper_footer .v-card div {
+  font-size: 0.9rem;
+  line-height: 1.1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0;
+}
+
+.upper_footer .v-card .header {
+  font-size: 1rem;
+  font-weight: bold;
+}
+</style>

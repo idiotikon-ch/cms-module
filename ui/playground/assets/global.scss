@@ -5,3 +5,13 @@
   background-attachment: fixed;
   background-position: right center;
 }
+
+a,
+a:visited,
+a:active {
+  color: inherit !important;
+}
+
+p {
+  padding-bottom: 0.5rem;
+}
