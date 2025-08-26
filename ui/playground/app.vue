@@ -159,8 +159,6 @@ const menuItems = (await find("menus", {
   filters: { title: { $eq: 'root' } },
 })).data[0].sub_menus
 
-console.log(menuItems)
-
 </script>
 
 <style scoped>
