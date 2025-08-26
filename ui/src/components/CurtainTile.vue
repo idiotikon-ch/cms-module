@@ -13,9 +13,10 @@
           transform: isHovering || inViewport ? '' : 'translateY(45%)',
           opacity: isHovering || inViewport ? 0.8 : 1,
         }">
-          <vue-markdown :source="tile.title" class="text-center text-h5 font-weight-bold" />
-          <vue-markdown class="text-body-2" :style="{ opacity: isHovering || inViewport ? 1 : 0 }"
-            :source="tile.content" />
+
+          <MarkdownRenderer v-if="tile" :content="tile.title" class="text-center text-h5 font-weight-bold" />
+          <MarkdownRenderer v-if="tile" :content="tile.content" class="text-body-2"
+            :style="{ opacity: isHovering || inViewport ? 1 : 0 }" />
         </div>
       </v-img>
     </v-card>
@@ -23,11 +24,12 @@
 </template>
 
 <script lang="ts" setup>
-import VueMarkdown from "vue-markdown-render"
 import { useDisplay } from "vuetify"
 import mitt from "mitt"; // Import mitt for event bus functionality
 import { ref, onMounted, onUnmounted } from "vue"; // Import Vue composition API functions
 import { useTile } from '../composables/useTile'
+import MarkdownRenderer from '../components/MarkdownRenderer.vue'
+
 
 const { isDesktop } = useDevice()
 const { tile, eventBus: providedEventBus } = defineProps({

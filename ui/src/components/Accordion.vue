@@ -13,7 +13,7 @@
                     <slot :name="`panel-${i}`" :item="item">
                         <v-row>
                             <v-col v-if="item.text">
-                                <vue-markdown :source="item.text" :options="{ html: true }" />
+                                <MarkdownRenderer :content="item.text" />
                             </v-col>
                             <v-col v-for="picture in item.pictures" :key="picture.picture?.url" cols="12" :md="3">
                                 <v-img :src="`${cms_images_url}${picture.picture.url}`" cover></v-img>
@@ -28,7 +28,7 @@
 
 
 <script setup lang="ts">
-import VueMarkdown from 'vue-markdown-render'
+import MarkdownRenderer from '../components/MarkdownRenderer.vue'
 import { ref, onMounted, watch, computed } from 'vue'
 const route = useRoute()
 const runtimeConfig = useRuntimeConfig()
