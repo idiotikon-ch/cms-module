@@ -23,7 +23,7 @@
       </v-container>
 
 
-      <v-container class="footer pb-0 pl-0 pr-0">
+      <v-container class="footer pb-0 pl-0 pr-0 mt-auto">
         <div class="d-flex w-100 align-center flex-column upper_footer">
           <v-card class="align-top" :style="{ width: mdAndUp && !showDrawer ? '70%' : '90%', maxWidth: '1150px' }" flat>
             <v-row class="ma-0">
