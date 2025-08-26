@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import TileRow from '~/components/TileRow.vue';
-import { fetchTile } from '../utils/tileFetchers';
+import { fetchTile } from '../../src/tileFetchers';
 import { ref } from 'vue';
 
 const tile = ref();

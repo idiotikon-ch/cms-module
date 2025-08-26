@@ -1,38 +1,13 @@
 <script setup lang="ts">
-import TileRow from '~/components/TileRow.vue';
-import { fetchTile } from '../utils/tileFetchers';
-import { ref } from 'vue';
-import { IdiCmsCurtainTile } from '#components';
-
-const tile = ref();
-const tile2 = ref();
-const tile3 = ref();
-
-fetchTile("klein-u-gross", tile);
-fetchTile("ksds-k", tile2);
-fetchTile("karten", tile3);
 </script>
 
 
 <template>
     <v-container class="text-center">
-        <v-row>
-            <v-col cols="12">
-                <img src="https://kleinersprachatlas.ch/images/home/pfuetze_home.png" alt="Header Image"
-                    style="width: 100%; height: auto; object-fit: cover; margin-bottom: 2rem;" />
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col v-if="tile">
-                <IdiCmsCurtainTile :tile="tile" />
-            </v-col>
-            <v-col v-if="tile2">
-                <IdiCmsCurtainTile :tile="tile2" />
-            </v-col>
-            <v-col v-if="tile3">
-                <IdiCmsCurtainTile :tile="tile3" />
-            </v-col>
-        </v-row>
+        <p>Welcome to the playground app. 
+            Here, you can play around with the components provided by the cms-module.
+        </p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo similique alias ratione accusamus nemo quam totam maxime minus eligendi corporis libero dolore, soluta ad dicta quod atque ea? Illo, sapiente. Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos dolores alias quos autem quasi laboriosam a minus iusto, nesciunt impedit quisquam omnis voluptatem voluptatibus labore praesentium vitae numquam dolor doloribus! Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod ad dolore tempore ipsa culpa soluta nobis ex aperiam totam quae corporis, natus a, sit veritatis eligendi, recusandae provident. Non, suscipit. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam, voluptatibus neque accusantium architecto eveniet, provident odio, fuga rem vero temporibus quam soluta consequuntur. Dolores quo repudiandae sequi voluptate fugiat! Quis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, voluptatum. Expedita magni provident eos quas repellat inventore. Laudantium, veniam illo! Rem eos ipsum voluptatum a amet itaque. Nam, accusamus corrupti. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, minus. Doloremque dolores consequatur ipsa optio! Laboriosam, nulla eaque dolorem quos fugit aliquid adipisci nisi accusantium at ducimus debitis, necessitatibus ipsa? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magnam provident unde delectus eum. Pariatur consequatur maxime labore veritatis quaerat hic, saepe possimus modi inventore adipisci tempora impedit recusandae voluptates? Illum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione magni dolor qui dolore modi saepe enim, accusamus voluptas voluptatum. Atque laudantium eius, cumque aut amet odio aliquam laboriosam numquam nobis?</p>
     </v-container>
 </template>
 

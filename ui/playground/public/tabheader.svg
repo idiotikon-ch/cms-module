@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="297mm"
+   height="210mm"
+   viewBox="0 0 297 210"
+   version="1.1"
+   id="svg407"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="drawing.svg"
+   inkscape:export-filename="cms-module/ui/playground/public/tabheader.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview409"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.2017607"
+     inkscape:cx="699.80656"
+     inkscape:cy="294.98386"
+     inkscape:window-width="2880"
+     inkscape:window-height="1552"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs404" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:15.9981px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.399953"
+       x="3.3320625"
+       y="20.068499"
+       id="text413"
+       transform="scale(0.88561449,1.1291595)"><tspan
+         sodipodi:role="line"
+         style="stroke-width:0.399953"
+         x="3.3320625"
+         y="20.068499"
+         id="tspan415">Lorem ipsum dolor sit amet consectetur</tspan><tspan
+         sodipodi:role="line"
+         style="stroke-width:0.399953"
+         x="3.3320625"
+         y="40.066124"
+         id="tspan419">adipisicing elit. Illo similique alias ratione</tspan><tspan
+         sodipodi:role="line"
+         style="stroke-width:0.399953"
+         x="3.3320625"
+         y="60.063751"
+         id="tspan421">accusamus nemo quam totam maxime</tspan><tspan
+         sodipodi:role="line"
+         style="stroke-width:0.399953"
+         x="3.3320625"
+         y="80.061371"
+         id="tspan423">minus eligendi corporis libero dolore,</tspan><tspan
+         sodipodi:role="line"
+         style="stroke-width:0.399953"
+         x="3.3320625"
+         y="100.059"
+         id="tspan425">soluta ad dicta quod atque ea? Illo,</tspan><tspan
+         sodipodi:role="line"
+         style="stroke-width:0.399953"
+         x="3.3320625"
+         y="120.05663"
+         id="tspan6722">sapiente. Lorem ipsum dolor sit amet</tspan><tspan
+         sodipodi:role="line"
+         style="stroke-width:0.399953"
+         x="3.3320625"
+         y="140.05424"
+         id="tspan6724">consectetur adipisicing elit. Dignissimos</tspan><tspan
+         sodipodi:role="line"
+         style="stroke-width:0.399953"
+         x="3.3320625"
+         y="160.05188"
+         id="tspan6726">dolores alias quos autem quasi laboriosam </tspan></text>
+    <rect
+       style="opacity:0.562022;fill:#0004ff;fill-opacity:1;fill-rule:evenodd;stroke-width:0.488365"
+       id="rect479"
+       width="297.61749"
+       height="210.10179"
+       x="0.097181521"
+       y="-0.096321695" />
+  </g>
+</svg>

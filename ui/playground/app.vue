@@ -5,14 +5,7 @@
       <v-app-bar-nav-icon @click="showDrawer = !showDrawer" :class="xs ? 'mt-2' : 'mt-8'">
       </v-app-bar-nav-icon>
       <v-app-bar-title @click="router.push({ name: 'index' })" class="align-self-start mt-2"
-        :class="xs ? 'ml-0' : 'ml-2'">
-        <div class="ksds-logo-flex">
-          <span class="ksds-logo-main">KSDS</span>
-          <div class="ksds-logo-title">
-            <span>Kleiner Sprachatlas</span><br>
-            <span>der deutschen Schweiz</span>
-          </div>
-        </div>
+        :class="xs ? 'ml-0' : 'ml-2'">Und wieder ein CMS vom Idiotikon
       </v-app-bar-title>
 
       <a href="https://www.idiotikon.ch/" target="_blank">
@@ -37,7 +30,7 @@
               <v-col class="px-0" cols="6">
                 <p class="header">Adresse</p>
                 <idiCmsContactInfo address="Schweizerisches Idiotikon\nAuf der Mauer 5\n8001 Zürich"
-                  email="ksds@idiotikon.ch" phone="+41 (0) 44 251 36 76" />
+                  email="info@idiotikon.ch" phone="+41 (0) 44 251 36 76" />
               </v-col>
               <v-col class="sagw px-0" cols="2">
                 <v-img height="60" :src="'/static/img/SAGW_Logo_addition_supported_sw_pos.svg'"></v-img>
@@ -73,6 +66,8 @@ import { useRouter } from '#app'
 import { useDisplay } from 'vuetify'
 import { ref, onMounted } from 'vue'
 import { mdiMagnify, mdiChevronUp } from '@mdi/js'
+import { useStrapi } from '#imports'
+const { find } = useStrapi()
 
 // optional: try to use the project's Strapi composable if available
 let useStrapiAvailable = false
@@ -111,14 +106,7 @@ function scrollTop() {
 
 const showDrawer = ref(lgAndUp.value);
 
-const menuItems = ref([
-  { title: 'Start', link: { name: 'index' }, icon: 'mdi-home-outline' },
-  { title: 'Sprachatlas', link: { name: 'sprachatlas' }, icon: 'mdi-view-module' },
-  { title: 'Karten', link: { name: 'maps' }, icon: 'mdi-map' },
-  { title: 'Tiles! Tiles! Tiles!', link: { name: 'tiles' }, icon: 'mdi-school' },
-  { title: 'Downloads', link: { name: 'downloads' }, icon: 'mdi-download' },
-  { title: 'Kontakt', link: { name: 'contact' }, icon: 'mdi-contact-mail' }
-]);
+
 
 function handleToggle(val) {
   showDrawer.value = val;
@@ -154,6 +142,24 @@ onMounted(async () => {
     // ignore fetch errors and keep fallback
   }
 })
+
+// const menuItems = ref([
+//   { title: 'Start', link: { name: 'index' }, icon: 'mdi-home-outline' },
+//   { title: 'Tiles! Tiles! Tiles!', link: { name: 'tiles' }, icon: 'mdi-school' },
+//   { title: 'Accordions', link: { name: 'accordions' }, icon: 'mdi-accordion' },
+// ]);
+
+
+const menuItems = (await find("menus", {
+  populate: [
+    'sub_menus',
+    'sub_menus.sub_menus',
+    'sub_menus.sub_menus.sub_menus' // menu has 3 levels
+  ],
+  filters: { title: { $eq: 'root' } },
+})).data[0].sub_menus
+
+console.log(menuItems)
 
 </script>
 
@@ -204,22 +210,4 @@ onMounted(async () => {
 }
 
 
-
-
-
-
-.ksds-logo-flex {
-  display: flex;
-  align-items: center;
-  height: 70px;
-  font-weight: bold;
-}
-
-.ksds-logo-main {
-  display: flex;
-  align-items: center;
-  font-weight: bold;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-}
 </style>
