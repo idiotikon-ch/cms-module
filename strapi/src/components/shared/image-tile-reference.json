@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_shared_image_tile_references",
+  "info": {
+    "displayName": "ImageTile reference",
+    "icon": "seed",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "tile": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tile.tile"
+    },
+    "size": {
+      "type": "enumeration",
+      "enum": [
+        "w100",
+        "w50",
+        "w30",
+        "w25",
+        "w20"
+      ]
+    }
+  }
+}

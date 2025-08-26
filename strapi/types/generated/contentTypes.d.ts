@@ -568,30 +568,29 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   };
 }
 
-export interface ApiMapMap extends Struct.CollectionTypeSchema {
-  collectionName: 'maps';
+export interface ApiMenuMenu extends Struct.CollectionTypeSchema {
+  collectionName: 'menus';
   info: {
     description: '';
-    displayName: 'Map';
-    pluralName: 'maps';
-    singularName: 'map';
+    displayName: 'Menu';
+    pluralName: 'menus';
+    singularName: 'menu';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    content: Schema.Attribute.DynamicZone<
-      ['shared.rich-text', 'shared.image-tile-reference']
-    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    link: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::map.map'> &
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::menu.menu'> &
       Schema.Attribute.Private;
+    parent_menu: Schema.Attribute.Relation<'manyToOne', 'api::menu.menu'>;
     publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID;
-    title: Schema.Attribute.String;
+    sub_menus: Schema.Attribute.Relation<'oneToMany', 'api::menu.menu'>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1173,7 +1172,7 @@ declare module '@strapi/strapi' {
       'api::category.category': ApiCategoryCategory;
       'api::content.content': ApiContentContent;
       'api::global.global': ApiGlobalGlobal;
-      'api::map.map': ApiMapMap;
+      'api::menu.menu': ApiMenuMenu;
       'api::text.text': ApiTextText;
       'api::tile.tile': ApiTileTile;
       'plugin::content-releases.release': PluginContentReleasesRelease;
