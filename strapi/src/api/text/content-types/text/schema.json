@@ -23,6 +23,12 @@
         "shared.image-tile-reference",
         "shared.rich-text"
       ]
+    },
+    "body": {
+      "type": "richtext"
+    },
+    "richbody": {
+      "type": "blocks"
     }
   }
 }

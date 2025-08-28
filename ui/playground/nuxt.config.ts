@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ["../src/module"],
+  modules: ["../src/module", "nuxt-strapi-blocks-renderer"],
   strapi: {},
   ssr: false,
   idiCmsModule: {},

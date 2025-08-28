@@ -19,6 +19,7 @@ export const fetchDocument = async <T = any>(
       filters: { slug },
       populate,
     })
+    console.log("Success:", response.data[0])
     target.value = response.data?.[0] || null
   } catch (error) {
     console.error(`Error fetching ${contentType} by slug ${slug}:`, error)

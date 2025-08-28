@@ -44,6 +44,18 @@ export interface SharedRichText extends Struct.ComponentSchema {
     icon: 'align-justify';
   };
   attributes: {
+    body: Schema.Attribute.Blocks;
+  };
+}
+
+export interface SharedRichTextBlocks extends Struct.ComponentSchema {
+  collectionName: 'components_shared_rich_text_blocks';
+  info: {
+    description: '';
+    displayName: 'markdown text';
+    icon: 'earth';
+  };
+  attributes: {
     body: Schema.Attribute.RichText;
   };
 }
@@ -82,6 +94,7 @@ declare module '@strapi/strapi' {
       'shared.media': SharedMedia;
       'shared.quote': SharedQuote;
       'shared.rich-text': SharedRichText;
+      'shared.rich-text-blocks': SharedRichTextBlocks;
       'shared.seo': SharedSeo;
       'shared.slider': SharedSlider;
     }

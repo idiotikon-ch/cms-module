@@ -416,7 +416,13 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
   attributes: {
     author: Schema.Attribute.Relation<'manyToOne', 'api::author.author'>;
     blocks: Schema.Attribute.DynamicZone<
-      ['shared.media', 'shared.quote', 'shared.rich-text', 'shared.slider']
+      [
+        'shared.media',
+        'shared.quote',
+        'shared.rich-text',
+        'shared.slider',
+        'shared.rich-text-blocks',
+      ]
     >;
     category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
     cover: Schema.Attribute.Media<'images' | 'files' | 'videos'>;
@@ -433,7 +439,9 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
       'api::article.article'
     > &
       Schema.Attribute.Private;
+    markdown_content: Schema.Attribute.RichText;
     publishedAt: Schema.Attribute.DateTime;
+    rich_content: Schema.Attribute.Blocks;
     slug: Schema.Attribute.UID<'title'>;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
@@ -609,6 +617,7 @@ export interface ApiTextText extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    body: Schema.Attribute.RichText;
     content: Schema.Attribute.DynamicZone<
       ['shared.image-tile-reference', 'shared.rich-text']
     >;
@@ -619,6 +628,7 @@ export interface ApiTextText extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::text.text'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    richbody: Schema.Attribute.Blocks;
     slug: Schema.Attribute.UID;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;

@@ -28,6 +28,7 @@
     "@nuxt/kit": "^4.0.3",
     "@nuxtjs/device": "^3.2.4",
     "@strapi/client": "^1.4.0",
+    "nuxt-strapi-blocks-renderer": "^1.1.0",
     "sass": "^1.90.0",
     "sass-loader": "^10.5.2",
     "vue-markdown-render": "^2.2.1",

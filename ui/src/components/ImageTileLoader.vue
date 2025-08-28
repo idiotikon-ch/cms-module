@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from 'vue'
 import ImageTile from './ImageTile.vue'
-import { fetchTile } from '../utils/tileFetchers'
+import { fetchTile } from '../tileFetchers'
 
 const props = defineProps<{ block: any, size?: string }>()
 const tile = ref(null)
