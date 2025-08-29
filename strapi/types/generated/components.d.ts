@@ -1,5 +1,16 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface SharedAccordion extends Struct.ComponentSchema {
+  collectionName: 'components_shared_accordions';
+  info: {
+    displayName: 'Accordion';
+    icon: 'cloud';
+  };
+  attributes: {
+    article: Schema.Attribute.Relation<'oneToOne', 'api::article.article'>;
+  };
+}
+
 export interface SharedImageTileReference extends Struct.ComponentSchema {
   collectionName: 'components_shared_image_tile_references';
   info: {
@@ -10,6 +21,16 @@ export interface SharedImageTileReference extends Struct.ComponentSchema {
   attributes: {
     size: Schema.Attribute.Enumeration<['w100', 'w50', 'w30', 'w25', 'w20']>;
     tile: Schema.Attribute.Relation<'oneToMany', 'api::tile.tile'>;
+  };
+}
+
+export interface SharedMarkdownText extends Struct.ComponentSchema {
+  collectionName: 'components_shared_markdown_texts';
+  info: {
+    displayName: 'Markdown text';
+  };
+  attributes: {
+    body: Schema.Attribute.RichText;
   };
 }
 
@@ -48,18 +69,6 @@ export interface SharedRichText extends Struct.ComponentSchema {
   };
 }
 
-export interface SharedRichTextBlocks extends Struct.ComponentSchema {
-  collectionName: 'components_shared_rich_text_blocks';
-  info: {
-    description: '';
-    displayName: 'markdown text';
-    icon: 'earth';
-  };
-  attributes: {
-    body: Schema.Attribute.RichText;
-  };
-}
-
 export interface SharedSeo extends Struct.ComponentSchema {
   collectionName: 'components_shared_seos';
   info: {
@@ -90,11 +99,12 @@ export interface SharedSlider extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
+      'shared.accordion': SharedAccordion;
       'shared.image-tile-reference': SharedImageTileReference;
+      'shared.markdown-text': SharedMarkdownText;
       'shared.media': SharedMedia;
       'shared.quote': SharedQuote;
       'shared.rich-text': SharedRichText;
-      'shared.rich-text-blocks': SharedRichTextBlocks;
       'shared.seo': SharedSeo;
       'shared.slider': SharedSlider;
     }

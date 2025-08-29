@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_shared_accordions",
+  "info": {
+    "displayName": "Accordion",
+    "icon": "cloud"
+  },
+  "options": {},
+  "attributes": {
+    "article": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::article.article"
+    }
+  }
+}

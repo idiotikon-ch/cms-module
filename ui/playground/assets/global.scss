@@ -1,3 +1,7 @@
+.v-main {
+  background-color: #e4e4e4;
+}
+
 .idcms_accordion {
   background-image: url("/tabheader.svg");
   background-repeat: no-repeat;
@@ -14,4 +18,142 @@ a:active {
 
 p {
   padding-bottom: 0.5rem;
+}
+
+/* V-CARD */
+
+.v-card-subtitle,
+.v-card-subtitle p,
+.v-card-subtitle a {
+  color: rgb(100, 100, 100) !important;
+  opacity: 1 !important;
+}
+
+.v-card.focus .v-card-text,
+.v-card.sidebar .v-card-text,
+.v-card.focus p,
+.v-card.sidebar p,
+.v-container.mixed-tile-text .v-card-text {
+  color: #454545 !important;
+}
+
+/* overwrite style for custom italic */
+.v-card.focus .linkStyle > p,
+.v-card.sidebar .linkStyle > p {
+  font-size: 1rem;
+  line-height: 1.5rem !important;
+  color: rgb(var(--v-theme-primary)) !important;
+  padding-bottom: 0 !important;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.v-card.sidebar,
+.v-card.focus {
+  margin-bottom: 1.5rem !important;
+  padding: 1.5rem;
+}
+
+.v-card.focus > .v-card-title,
+.v-card.focus .v-card-title:first-of-type,
+.v-card.focus > .v-card-subtitle,
+.v-card.focus .v-card-subtitle:first-of-type,
+.v-card.sidebar > .v-card-title,
+.v-card.sidebar .v-card-title:first-of-type {
+  padding: 0 0 2rem 0 !important;
+  hyphens: none !important;
+}
+
+.v-card.focus > .v-card-text,
+.v-card.sidebar > .v-card-text {
+  padding-left: 0 !important;
+}
+
+.v-card.sidebar .v-card-title {
+  padding-bottom: 0.75rem !important;
+}
+.v-card.sidebar .v-img {
+  margin: 0.75rem 0 !important;
+}
+
+.v-card.focus .v-card .v-card-title {
+  padding-bottom: 6px;
+}
+.v-card.focus .v-card .v-card-subtitle {
+  padding-bottom: 0;
+}
+.v-card.focus .v-card .v-card-text {
+  padding-top: 6px;
+}
+
+.focus .v-list-item {
+  padding: 1rem 0 !important;
+}
+
+/* initial reset of v-col and v-row styling inside .text-card */
+.v-card-text.text-card [class^="v-col"],
+.v-card-text.text-card [class^="v-row"],
+.v-card-text {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.v-card-text.text-card .v-card-title {
+  padding-bottom: 6px;
+}
+
+.v-card-text.tab-menu {
+  padding-bottom: 2rem !important;
+}
+.v-card-text.tab-menu .v-btn {
+  margin: 0.5rem;
+}
+.v-card-text.tab-menu p:last-of-type {
+  margin-bottom: 1rem;
+}
+
+.v-card.white-border-tile .v-card-title,
+.v-card.white-border-tile .v-card-subtitle,
+.v-card.white-border-tile .v-card-text {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.v-card.white-border-tile .v-card-title {
+  padding-bottom: 0.25rem !important;
+}
+.v-card.white-border-tile .v-card-subtitle {
+  padding-bottom: 0.5rem !important;
+}
+.v-card.white-border-tile .v-card-text {
+  padding: 1rem 0;
+}
+
+.v-card.white-border-tile {
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.v-card.white-border-tile.teaser {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* V-CONTAINER */
+
+.v-container.mixed-tile-text .v-card-text {
+  padding-bottom: 0.25rem !important;
+}
+
+.v-container.mixed-tile-text {
+  padding: 1rem;
+}
+.v-container.mixed-tile-text .v-card-subtitle {
+  padding: 0 !important;
+}
+
+/* other */
+
+.read-more {
+  padding: 10px 0 0 0 !important;
 }

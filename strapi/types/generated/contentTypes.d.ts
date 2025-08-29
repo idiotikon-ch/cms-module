@@ -414,34 +414,35 @@ export interface ApiArticleArticle extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    abstract: Schema.Attribute.Text &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 500;
+      }>;
     author: Schema.Attribute.Relation<'manyToOne', 'api::author.author'>;
-    blocks: Schema.Attribute.DynamicZone<
+    category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
+    content: Schema.Attribute.DynamicZone<
       [
         'shared.media',
         'shared.quote',
         'shared.rich-text',
         'shared.slider',
-        'shared.rich-text-blocks',
+        'shared.markdown-text',
+        'shared.image-tile-reference',
+        'shared.seo',
+        'shared.accordion',
       ]
     >;
-    category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
-    cover: Schema.Attribute.Media<'images' | 'files' | 'videos'>;
+    cover: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    description: Schema.Attribute.Text &
-      Schema.Attribute.SetMinMaxLength<{
-        maxLength: 80;
-      }>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::article.article'
     > &
       Schema.Attribute.Private;
-    markdown_content: Schema.Attribute.RichText;
     publishedAt: Schema.Attribute.DateTime;
-    rich_content: Schema.Attribute.Blocks;
     slug: Schema.Attribute.UID<'title'>;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
@@ -599,38 +600,6 @@ export interface ApiMenuMenu extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     sub_menus: Schema.Attribute.Relation<'oneToMany', 'api::menu.menu'>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiTextText extends Struct.CollectionTypeSchema {
-  collectionName: 'texts';
-  info: {
-    description: '';
-    displayName: 'Text';
-    pluralName: 'texts';
-    singularName: 'text';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    body: Schema.Attribute.RichText;
-    content: Schema.Attribute.DynamicZone<
-      ['shared.image-tile-reference', 'shared.rich-text']
-    >;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::text.text'> &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    richbody: Schema.Attribute.Blocks;
-    slug: Schema.Attribute.UID;
-    title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1183,7 +1152,6 @@ declare module '@strapi/strapi' {
       'api::content.content': ApiContentContent;
       'api::global.global': ApiGlobalGlobal;
       'api::menu.menu': ApiMenuMenu;
-      'api::text.text': ApiTextText;
       'api::tile.tile': ApiTileTile;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

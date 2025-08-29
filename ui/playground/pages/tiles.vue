@@ -12,9 +12,12 @@ fetchTile("test-tile-1", tile2);
 </script>
 
 <template>
-    <v-container>
-        <TileRow :tiles="[tile, tile2]" />
-    </v-container>
+    <v-card class="focus general-content">
+        <v-card-title class="text-h3 pl-0 text-wrap">Tiles</v-card-title>
+        <v-container>
+            <TileRow :tiles="[tile, tile2]" />
+        </v-container>
+    </v-card>
 </template>
 
 <style scoped>

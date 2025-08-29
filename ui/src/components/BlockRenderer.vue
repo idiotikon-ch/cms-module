@@ -6,12 +6,15 @@
                 class="image-tile-row">
                 <ImageTileLoader v-for="(block, i) in group" :key="i" :block="block" :size="block.size || 'default'" />
             </div>
+            <Accordion v-else-if="group[0].__component && group[0].__component.includes('accordion')" :content="group.map(b => ({
+                ...b.article,
+                title: b.title || b.article?.title
+            }))" />
             <!-- Render other blocks as usual -->
-            <template v-else>
+            <div v-else>
                 <template v-for="(block, i) in group" :key="i">
-                    <template v-if="block.__component && block.__component.includes('text')">
-                        <div v-if="block.body && Array.isArray(block.body)">
-                            ONE
+                    <div v-if="block.__component && block.__component.includes('text')">
+                        <template v-if="block.body && Array.isArray(block.body)">
                             <template v-for="(sub, j) in block.body" :key="'rt-' + j">
                                 <p v-if="sub.type === 'paragraph'">
                                     <template v-for="(child, k) in sub.children" :key="k">
@@ -25,43 +28,57 @@
                                 </h2>
                                 <!-- Add more block types as needed -->
                             </template>
-                        </div>
-                        <div v-else-if="typeof block.body === 'string'">
-                            TWO
-                            <MarkdownRenderer :content="block.body" />
-                        </div>
-                    </template>
-                    <template v-else-if="block.__component && block.__component.includes('media')">
-                        <div>MEDIA: {{ block }}</div>
-                    </template>
+                        </template>
+                        <MarkdownRenderer v-else :content="block.body" />
+                    </div>
+                    <ImageTileLoader
+                        v-else-if="block.__component && (block.__component.includes('media') || block.__component.includes('image-tile-reference'))"
+                        :block="block" :size="block.size || 'default'" />
+                    <v-carousel
+                        v-else-if="block.__component && block.__component.includes('slider') && block.files && block.files.length"
+                        hide-delimiter-background height="360" class="article-slider mb-6">
+                        <v-carousel-item v-for="(file, idx) in block.files" :key="file.id || idx">
+                            <img :src="file.formats?.large?.url || file.formats?.medium?.url || file.url"
+                                :alt="file.alternativeText || file.caption || file.name" class="slider-img" />
+                            <div v-if="file.caption" class="slider-caption">{{ file.caption }}</div>
+                        </v-carousel-item>
+                    </v-carousel>
+                    <Accordion v-else-if="block.__component && block.__component.includes('accordion')"
+                        :title="block.title" :content="block.article?.content" />
+                    <div v-else-if="block.__component && block.__component.includes('quote')">
+                        <blockquote>{{ block.text }}</blockquote>
+                        <div v-if="block.author" class="quote-author">— {{ block.author }}</div>
+                    </div>
+                    <!-- SEO block, usually not rendered visually -->
+                    <div v-else-if="block.__component && block.__component.includes('seo')"></div>
                     <div v-else>Unknown: {{ block }}</div>
-                    <!-- Add more block/component types as needed -->
                 </template>
-            </template>
+            </div>
         </template>
     </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { defineProps, computed } from 'vue'
 import ImageTileLoader from './ImageTileLoader.vue'
 import MarkdownRenderer from './MarkdownRenderer.vue'
-
+import MediaRenderer from './MediaRenderer.vue'
+import Accordion from './Accordion.vue'
 const props = defineProps({
     content: {
         type: Array,
         required: true
     }
 })
-import { computed } from 'vue'
 
 // Group consecutive image-tile-reference blocks into a row
-function groupBlocks(blocks) {
+function groupBlocks(blocks: any[]) {
     const groups = []
     let current = []
     let lastType = null
     for (const block of blocks) {
         const isTile = block.__component && block.__component.includes('image-tile-reference')
+        const isAccordion = block.__component && block.__component.includes('accordion')
         if (isTile) {
             if (lastType !== 'tile' && current.length) {
                 groups.push(current)
@@ -69,8 +86,15 @@ function groupBlocks(blocks) {
             }
             current.push(block)
             lastType = 'tile'
+        } else if (isAccordion) {
+            if (lastType !== 'accordion' && current.length) {
+                groups.push(current)
+                current = []
+            }
+            current.push(block)
+            lastType = 'accordion'
         } else {
-            if (lastType === 'tile' && current.length) {
+            if ((lastType === 'tile' || lastType === 'accordion') && current.length) {
                 groups.push(current)
                 current = []
             }
@@ -95,5 +119,27 @@ const groupedBlocks = computed(() => groupBlocks(props.content))
 
 .image-tile-root.w50 {
     width: calc(50% - 0.25rem);
+}
+
+.article-slider {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.slider-img {
+    width: 100%;
+    height: 360px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #f8f8f8;
+    display: block;
+}
+
+.slider-caption {
+    text-align: center;
+    font-size: 1rem;
+    color: #444;
+    margin-top: 0.5rem;
 }
 </style>

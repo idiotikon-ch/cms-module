@@ -11,7 +11,8 @@
                 </v-expansion-panel-title>
                 <v-expansion-panel-text :id="'panel-content-' + i">
                     <slot :name="`panel-${i}`" :item="item">
-                        <v-row>
+                        <BlockRenderer v-if="item.content" :content="item.content" />
+                        <v-row v-else>
                             <v-col v-if="item.text">
                                 <MarkdownRenderer :content="item.text" />
                             </v-col>
@@ -29,6 +30,7 @@
 
 <script setup lang="ts">
 import MarkdownRenderer from '../components/MarkdownRenderer.vue'
+import BlockRenderer from './BlockRenderer.vue'
 import { ref, onMounted, watch, computed } from 'vue'
 const route = useRoute()
 const runtimeConfig = useRuntimeConfig()

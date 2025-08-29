@@ -13,15 +13,17 @@
   "pluginOptions": {},
   "attributes": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "required": false
     },
-    "description": {
+    "abstract": {
       "type": "text",
-      "maxLength": 80
+      "maxLength": 500
     },
     "slug": {
       "type": "uid",
-      "targetField": "title"
+      "targetField": "title",
+      "required": false
     },
     "cover": {
       "type": "media",
@@ -30,7 +32,8 @@
       "allowedTypes": [
         "images",
         "files",
-        "videos"
+        "videos",
+        "audios"
       ]
     },
     "author": {
@@ -45,21 +48,19 @@
       "target": "api::category.category",
       "inversedBy": "articles"
     },
-    "blocks": {
+    "content": {
       "type": "dynamiczone",
       "components": [
         "shared.media",
         "shared.quote",
         "shared.rich-text",
         "shared.slider",
-        "shared.rich-text-blocks"
-      ]
-    },
-    "rich_content": {
-      "type": "blocks"
-    },
-    "markdown_content": {
-      "type": "richtext"
+        "shared.markdown-text",
+        "shared.image-tile-reference",
+        "shared.seo",
+        "shared.accordion"
+      ],
+      "required": false
     }
   }
 }
