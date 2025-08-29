@@ -14,21 +14,8 @@
             <div v-else>
                 <template v-for="(block, i) in group" :key="i">
                     <div v-if="block.__component && block.__component.includes('text')">
-                        <template v-if="block.body && Array.isArray(block.body)">
-                            <template v-for="(sub, j) in block.body" :key="'rt-' + j">
-                                <p v-if="sub.type === 'paragraph'">
-                                    <template v-for="(child, k) in sub.children" :key="k">
-                                        {{ child.text }}
-                                    </template>
-                                </p>
-                                <h2 v-else-if="sub.type === 'heading'">
-                                    <template v-for="(child, k) in sub.children" :key="k">
-                                        {{ child.text }}
-                                    </template>
-                                </h2>
-                                <!-- Add more block types as needed -->
-                            </template>
-                        </template>
+                        <StrapiBlocksText v-if="block.body && Array.isArray(block.body)"
+                            :nodes="block.body as BlockNode[]" />
                         <MarkdownRenderer v-else :content="block.body" />
                     </div>
                     <ImageTileLoader
@@ -64,6 +51,8 @@ import ImageTileLoader from './ImageTileLoader.vue'
 import MarkdownRenderer from './MarkdownRenderer.vue'
 import MediaRenderer from './MediaRenderer.vue'
 import Accordion from './Accordion.vue'
+import type { BlockNode } from '#strapi-blocks-renderer/types';
+
 const props = defineProps({
     content: {
         type: Array,
