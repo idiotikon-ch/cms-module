@@ -2,9 +2,11 @@
     <v-dialog @click="imgClick" content-class="custom-dialog d-flex" v-model="model" opacity="0.85">
         <v-carousel class="flex" height="100%" hide-delimiters :show-arrows="images.length > 1" v-model="carouselIndex">
             <v-carousel-item v-for="(img, index) in images" :key="index">
-                <v-img :maxHeight="displayHeight" contain :src="`${cmsImagesUrl}${img.picture.url}`" :style="{
-                    marginTop: `${displayHeight / 2 - imgHeight / 2}px`,
-                }"></v-img>
+                <v-img :maxHeight="displayHeight" contain
+                    :src="img.picture.url.startsWith('http') ? img.picture.url : `${cmsImagesUrl}${img.picture.url}`"
+                    :style="{
+                        marginTop: `${displayHeight / 2 - imgHeight / 2}px`,
+                    }"></v-img>
                 <v-btn v-if="handlers" variant="outlined" color="white" @click.stop="model = false" :icon="mdiClose"
                     class="close-btn"></v-btn>
                 <v-sheet v-if="img.title" class="title-sheet" v-show="handlers">

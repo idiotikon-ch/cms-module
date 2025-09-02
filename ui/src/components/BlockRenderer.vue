@@ -16,9 +16,19 @@
                             :nodes="block.body as BlockNode[]" />
                         <MarkdownRenderer v-else :content="block.body" />
                     </div>
-                    <div
-                        v-else-if="block.__component && (block.__component.includes('media') || block.__component.includes('image-tile-reference'))">
-                        {{ console.log('BlockRenderer media/image block:', block) }}
+                    <!-- Render bare media blocks: show image, open ImageViewer on click -->
+                    <div v-else-if="block.__component && block.__component.includes('media') && block.file">
+                        <v-img :src="getMediaUrl(block)" :alt="block.file.caption || ''" class="mb-2"
+                            style="max-width: 400px; cursor: pointer;" @click="openImageViewer([block], 0)" />
+                        <div v-if="block.file.caption" class="slider-caption">{{ block.file.caption }}</div>
+                        <ImageViewer :compactLegend="true" :images="[{
+                            picture: { url: getMediaUrl(block) },
+                            title: block.file.caption || '',
+                            legend: null,
+                        }]" v-model="showImageViewer" :index="imageViewerIndex" />
+                    </div>
+                    <!-- Render other image-tile-reference blocks (legacy, fallback) -->
+                    <div v-else-if="block.__component && block.__component.includes('image-tile-reference')">
                         <ImageTileLoader :block="block" :size="block.size || 'default'" />
                     </div>
                     <v-carousel
@@ -40,16 +50,21 @@
                 </template>
             </div>
         </template>
+        <!-- ImageViewer dialog for media blocks -->
+        <ImageViewer v-if="showImageViewer" :images="imageViewerImages" v-model="showImageViewer"
+            :index="imageViewerIndex" />
     </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed } from 'vue'
+
+import { defineProps, computed, ref } from 'vue'
 import ImageTileLoader from './ImageTileLoader.vue'
 import MarkdownRenderer from './MarkdownRenderer.vue'
-import MediaRenderer from './MediaRenderer.vue'
 import Accordion from './Accordion.vue'
+import ImageViewer from './ImageViewer.vue'
 import type { BlockNode } from '#strapi-blocks-renderer/types';
+
 
 const props = defineProps({
     content: {
@@ -58,7 +73,8 @@ const props = defineProps({
     }
 })
 
-console.log('BlockRenderer props.content:', props.content)
+
+
 
 // Group consecutive image-tile-reference blocks into a row
 function groupBlocks(blocks: any[]) {
@@ -69,7 +85,6 @@ function groupBlocks(blocks: any[]) {
         const isTile = block.__component && block.__component.includes('image-tile-reference')
         const isAccordion = block.__component && block.__component.includes('accordion')
         if (isTile) {
-            console.log("Tile block found:", block)
             if (lastType !== 'tile' && current.length) {
                 groups.push(current)
                 current = []
@@ -95,8 +110,27 @@ function groupBlocks(blocks: any[]) {
     if (current.length) groups.push(current)
     return groups
 }
-console.log(props.content)
+
 const groupedBlocks = computed(() => groupBlocks(props.content))
+
+// State for ImageViewer dialog
+const showImageViewer = ref(false)
+const imageViewerImages = ref([])
+const imageViewerIndex = ref(0)
+
+function openImageViewer(blocks, idx) {
+    // Accepts an array of media blocks (or single block)
+    // For single-image modal, just set the index and open the dialog
+    imageViewerIndex.value = idx || 0
+    showImageViewer.value = true
+}
+
+// Helper to calculate correct media URL (like useTile)
+function getMediaUrl(block: any) {
+    const base = typeof useRuntimeConfig === 'function' ? useRuntimeConfig()?.public?.strapi?.url || '' : ''
+    const file = block?.file || {}
+    return base + (file.formats?.large?.url || file.formats?.medium?.url || file.url || file.formats?.thumbnail?.url || '')
+}
 
 </script>
 
