@@ -29,10 +29,10 @@
                     <v-carousel
                         v-else-if="block.__component && block.__component.includes('slider') && block.files && block.files.length"
                         hide-delimiter-background height="360" class="article-slider mb-6">
-                        <v-carousel-item v-for="(file, idx) in block.files" :key="file.id || idx">
-                            <img :src="file.formats?.large?.url || file.formats?.medium?.url || file.url"
-                                :alt="file.alternativeText || file.caption || file.name" class="slider-img" />
-                            <div v-if="file.caption" class="slider-caption">{{ file.caption }}</div>
+                        <v-carousel-item v-for="(file, idx) in block.files" :key="file.id || idx" style="position:relative;">
+                            <img :src="getMediaUrl({ file })" :alt="file.alternativeText || file.caption || file.name"
+                                class="slider-img" />
+                            <div v-if="file.caption" class="slider-caption slider-caption--overlay">{{ file.caption }}</div>
                         </v-carousel-item>
                     </v-carousel>
                     <div v-else-if="block.__component && block.__component.includes('quote')">
@@ -183,5 +183,16 @@ function openImageViewerGlobal(block) {
     font-size: 1rem;
     color: #444;
     margin-top: 0.5rem;
+}
+.slider-caption--overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+    z-index: 2;
 }
 </style>
