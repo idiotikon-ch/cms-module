@@ -40,8 +40,8 @@
                         </v-carousel-item>
                     </v-carousel>
                     <div v-else-if="block.__component && block.__component.includes('quote')">
-                        <blockquote>{{ block.text }}</blockquote>
-                        <div v-if="block.author" class="quote-author">— {{ block.author }}</div>
+                        <blockquote class="custom-quote-block">{{ block.body }}</blockquote>
+                        <div v-if="block.title" class="quote-author">— {{ block.title }}</div>
                     </div>
                     <!-- SEO block, usually not rendered visually -->
                     <div v-else-if="block.__component && block.__component.includes('seo')"></div>
@@ -168,9 +168,9 @@ function openImageViewerGlobal(block) {
 }
 
 .article-slider {
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 .slider-img {

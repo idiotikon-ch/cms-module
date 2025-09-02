@@ -116,6 +116,49 @@ const fullCoverUrl = computed(() => {
     padding-right: 0;
 }
 
+.text-abstract {
+    font-style: italic;
+    color: #666;
+    background: #f5f5f5;
+    border-left: 4px solid #bdbdbd;
+    padding: 1rem 1.5rem;
+    margin: 2rem 0 2.5rem 0;
+    border-radius: 0 8px 8px 0;
+    font-size: 1.15rem;
+    letter-spacing: 0.01em;
+}
+
+.custom-quote-block {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 1.25rem;
+    color: #444;
+    background: #f9f9f9;
+    border-left: 6px solid #1976d2;
+    margin: 2.5rem 0 2.5rem 0;
+    padding: 1.2rem 1.2rem 1.2rem 2.5rem;
+    border-radius: 0 12px 12px 0;
+    quotes: "\201C" "\201D" "\2018" "\2019";
+    position: relative;
+}
+
+.custom-quote-block:before {
+    content: open-quote;
+    color: #1976d2;
+    font-size: 2.5rem;
+    line-height: 0.1em;
+    margin-right: 0.25em;
+    vertical-align: -0.4em;
+}
+
+.custom-quote-block:after {
+    content: close-quote;
+    color: #1976d2;
+    font-size: 2.5rem;
+    line-height: 0.1em;
+    margin-left: 0.25em;
+    vertical-align: -0.4em;
+}
+
 .text-cover {
     width: 100%;
     display: flex;
