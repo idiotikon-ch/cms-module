@@ -91,3 +91,26 @@ onUnmounted(() => {
   transition: all 0.5s ease;
 }
 </style>
+<style scoped>
+/* Force all text inside .curtain to be white, overriding Vuetify and global styles */
+.curtain,
+.curtain :deep(h1),
+.curtain :deep(h2),
+.curtain :deep(h3),
+.curtain :deep(h4),
+.curtain :deep(h5),
+.curtain :deep(h6),
+.curtain :deep(p),
+.curtain :deep(strong),
+.curtain :deep(em),
+.curtain :deep(span),
+.curtain :deep(li),
+.curtain :deep(ul),
+.curtain :deep(ol),
+.curtain :deep(a),
+.curtain :deep(.text-h5),
+.curtain :deep(.font-weight-bold),
+.curtain :deep(.text-body-2) {
+  color: white !important;
+}
+</style>
