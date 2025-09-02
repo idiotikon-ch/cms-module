@@ -3,10 +3,7 @@
         <v-carousel class="flex" height="100%" hide-delimiters :show-arrows="images.length > 1" v-model="carouselIndex">
             <v-carousel-item v-for="(img, index) in images" :key="index">
                 <v-img :maxHeight="displayHeight" contain
-                    :src="img.picture.url.startsWith('http') ? img.picture.url : `${cmsImagesUrl}${img.picture.url}`"
-                    :style="{
-                        marginTop: `${displayHeight / 2 - imgHeight / 2}px`,
-                    }"></v-img>
+                    :src="img.picture.url.startsWith('http') ? img.picture.url : `${cmsImagesUrl}${img.picture.url}`"></v-img>
                 <v-btn v-if="handlers" variant="outlined" color="white" @click.stop="model = false" :icon="mdiClose"
                     class="close-btn"></v-btn>
                 <v-sheet v-if="img.title" class="title-sheet" v-show="handlers">

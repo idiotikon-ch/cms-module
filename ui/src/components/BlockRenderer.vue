@@ -19,13 +19,8 @@
                     <!-- Render bare media blocks: show image, open ImageViewer on click -->
                     <div v-else-if="block.__component && block.__component.includes('media') && block.file">
                         <v-img :src="getMediaUrl(block)" :alt="block.file.caption || ''" class="mb-2"
-                            style="max-width: 400px; cursor: pointer;" @click="openImageViewer([block], 0)" />
+                            style="max-width: 400px; cursor: pointer;" @click="openImageViewerGlobal(block)" />
                         <div v-if="block.file.caption" class="slider-caption">{{ block.file.caption }}</div>
-                        <ImageViewer :compactLegend="true" :images="[{
-                            picture: { url: getMediaUrl(block) },
-                            title: block.file.caption || '',
-                            legend: null,
-                        }]" v-model="showImageViewer" :index="imageViewerIndex" />
                     </div>
                     <!-- Render other image-tile-reference blocks (legacy, fallback) -->
                     <div v-else-if="block.__component && block.__component.includes('image-tile-reference')">
@@ -50,8 +45,8 @@
                 </template>
             </div>
         </template>
-        <!-- ImageViewer dialog for media blocks -->
-        <ImageViewer v-if="showImageViewer" :images="imageViewerImages" v-model="showImageViewer"
+        <!-- Single global ImageViewer dialog for all media blocks -->
+        <ImageViewer v-if="showImageViewer" :compactLegend="true" :images="allMediaImages" v-model="showImageViewer"
             :index="imageViewerIndex" />
     </div>
 </template>
@@ -130,6 +125,28 @@ function getMediaUrl(block: any) {
     const base = typeof useRuntimeConfig === 'function' ? useRuntimeConfig()?.public?.strapi?.url || '' : ''
     const file = block?.file || {}
     return base + (file.formats?.large?.url || file.formats?.medium?.url || file.url || file.formats?.thumbnail?.url || '')
+}
+
+const allMediaBlocks = computed(() => {
+    // Flatten all groups and filter for media blocks
+    return props.content.filter(b => b.__component && b.__component.includes('media') && b.file)
+})
+
+const allMediaImages = computed(() =>
+    allMediaBlocks.value.map(block => ({
+        picture: { url: getMediaUrl(block) },
+        title: block.file.caption || '',
+        legend: null,
+    }))
+)
+
+function openImageViewerGlobal(block) {
+    // Find the index of the clicked block in allMediaBlocks
+    const idx = allMediaBlocks.value.findIndex(b => b === block)
+    if (idx !== -1) {
+        imageViewerIndex.value = idx
+        showImageViewer.value = true
+    }
 }
 
 </script>
