@@ -6,10 +6,8 @@
                 class="image-tile-row">
                 <ImageTileLoader v-for="(block, i) in group" :key="i" :block="block" :size="block.size || 'default'" />
             </div>
-            <Accordion v-else-if="group[0].__component && group[0].__component.includes('accordion')" :content="group.map(b => ({
-                ...b.article,
-                title: b.title || b.article?.title
-            }))" />
+            <Accordion v-else-if="group[0].__component && group[0].__component.includes('accordion')"
+                :content="group.map(b => b.article)" />
             <!-- Render other blocks as usual -->
             <div v-else>
                 <template v-for="(block, i) in group" :key="i">
@@ -18,9 +16,11 @@
                             :nodes="block.body as BlockNode[]" />
                         <MarkdownRenderer v-else :content="block.body" />
                     </div>
-                    <ImageTileLoader
-                        v-else-if="block.__component && (block.__component.includes('media') || block.__component.includes('image-tile-reference'))"
-                        :block="block" :size="block.size || 'default'" />
+                    <div
+                        v-else-if="block.__component && (block.__component.includes('media') || block.__component.includes('image-tile-reference'))">
+                        {{ console.log('BlockRenderer media/image block:', block) }}
+                        <ImageTileLoader :block="block" :size="block.size || 'default'" />
+                    </div>
                     <v-carousel
                         v-else-if="block.__component && block.__component.includes('slider') && block.files && block.files.length"
                         hide-delimiter-background height="360" class="article-slider mb-6">
@@ -30,8 +30,6 @@
                             <div v-if="file.caption" class="slider-caption">{{ file.caption }}</div>
                         </v-carousel-item>
                     </v-carousel>
-                    <Accordion v-else-if="block.__component && block.__component.includes('accordion')"
-                        :title="block.title" :content="block.article?.content" />
                     <div v-else-if="block.__component && block.__component.includes('quote')">
                         <blockquote>{{ block.text }}</blockquote>
                         <div v-if="block.author" class="quote-author">— {{ block.author }}</div>
@@ -60,6 +58,8 @@ const props = defineProps({
     }
 })
 
+console.log('BlockRenderer props.content:', props.content)
+
 // Group consecutive image-tile-reference blocks into a row
 function groupBlocks(blocks: any[]) {
     const groups = []
@@ -69,6 +69,7 @@ function groupBlocks(blocks: any[]) {
         const isTile = block.__component && block.__component.includes('image-tile-reference')
         const isAccordion = block.__component && block.__component.includes('accordion')
         if (isTile) {
+            console.log("Tile block found:", block)
             if (lastType !== 'tile' && current.length) {
                 groups.push(current)
                 current = []
@@ -94,8 +95,9 @@ function groupBlocks(blocks: any[]) {
     if (current.length) groups.push(current)
     return groups
 }
-
+console.log(props.content)
 const groupedBlocks = computed(() => groupBlocks(props.content))
+
 </script>
 
 <style scoped>

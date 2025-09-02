@@ -10,9 +10,9 @@
                     <span v-if="item.subtitle" class="subtitle">{{ item.subtitle }}</span>
                 </v-expansion-panel-title>
                 <v-expansion-panel-text :id="'panel-content-' + i">
-                    <slot :name="`panel-${i}`" :item="item">
-                        <BlockRenderer v-if="item.content" :content="item.content" />
-                        <v-row v-else>
+                    <BlockRenderer v-if="item.content" :content="item.content" />
+                    <!-- <slot v-else :name="`panel-${i}`" :item="item">
+                        <v-row>
                             <v-col v-if="item.text">
                                 <MarkdownRenderer :content="item.text" />
                             </v-col>
@@ -20,7 +20,7 @@
                                 <v-img :src="`${cms_images_url}${picture.picture.url}`" cover></v-img>
                             </v-col>
                         </v-row>
-                    </slot>
+                    </slot> -->
                 </v-expansion-panel-text>
             </v-expansion-panel>
         </v-expansion-panels>
