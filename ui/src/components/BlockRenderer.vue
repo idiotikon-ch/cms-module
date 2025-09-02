@@ -7,7 +7,7 @@
                 <ImageTileLoader v-for="(block, i) in group" :key="i" :block="block" :size="block.size || 'default'" />
             </div>
             <Accordion v-else-if="group[0].__component && group[0].__component.includes('accordion')"
-                :content="group.map(b => b.article)" />
+                :content="group[0].panels" />
             <!-- Render other blocks as usual -->
             <div v-else>
                 <template v-for="(block, i) in group" :key="i">

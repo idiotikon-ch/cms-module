@@ -2,14 +2,15 @@
   "collectionName": "components_shared_accordions",
   "info": {
     "displayName": "Accordion",
-    "icon": "cloud"
+    "icon": "cloud",
+    "description": ""
   },
   "options": {},
   "attributes": {
-    "article": {
+    "panels": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::article.article"
+      "relation": "oneToMany",
+      "target": "api::text.text"
     }
   }
 }

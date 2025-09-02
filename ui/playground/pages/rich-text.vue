@@ -1,40 +1,39 @@
 <template>
-    <v-card class="focus general-content">
-        <v-container class="article-page article-content-container" fluid>
-            <h1 class="article-title">{{ article.title }}</h1>
-            <div v-if="article.author || article.category" class="article-meta d-flex align-center mb-2"
-                style="gap: 1.5rem;">
-                <span v-if="article.author" class="article-author">
+    <v-card v-if="text" class="focus general-content">
+        <v-container class="text-page text-content-container" fluid>
+            <h1 class="text-title">{{ text.title }}</h1>
+            <div v-if="text.author || text.category" class="text-meta d-flex align-center mb-2" style="gap: 1.5rem;">
+                <span v-if="text.author" class="text-author">
                     By
-                    <template v-if="Array.isArray(article.author)">
-                        <span v-for="(a, idx) in article.author" :key="a.id || idx">
-                            {{ a.name || a }}<span v-if="idx < article.author.length - 1">, </span>
+                    <template v-if="Array.isArray(text.author)">
+                        <span v-for="(a, idx) in text.author" :key="a.id || idx">
+                            {{ a.name || a }}<span v-if="idx < text.author.length - 1">, </span>
                         </span>
                     </template>
                     <template v-else>
-                        {{ article.author?.name || article.author }}
+                        {{ text.author?.name || text.author }}
                     </template>
                 </span>
-                <span v-if="article.category" class="article-category">
-                    <template v-if="Array.isArray(article.category)">
-                        <v-chip v-for="(cat, idx) in article.category" :key="cat.id || idx" color="primary"
-                            variant="tonal" size="small">
+                <span v-if="text.category" class="text-category">
+                    <template v-if="Array.isArray(text.category)">
+                        <v-chip v-for="(cat, idx) in text.category" :key="cat.id || idx" color="primary" variant="tonal"
+                            size="small">
                             {{ cat.name || cat }}
                         </v-chip>
                     </template>
                     <template v-else>
                         <v-chip color="primary" variant="tonal"
-                            size="small">{{ article.category?.name || article.category }}</v-chip>
+                            size="small">{{ text.category?.name || text.category }}</v-chip>
                     </template>
                 </span>
             </div>
-            <div v-if="article.abstract" class="article-abstract">
-                {{ article.abstract }}
+            <div v-if="text.abstract" class="text-abstract">
+                {{ text.abstract }}
             </div>
-            <div v-if="article.cover" class="article-cover">
-                <img :src="fullCoverUrl" :alt="article.title" class="article-cover-img" />
+            <div v-if="text.cover" class="text-cover">
+                <img :src="fullCoverUrl" :alt="text.title" class="text-cover-img" />
             </div>
-            <BlockRenderer v-if="article.content" :content="article.content" />
+            <BlockRenderer v-if="text.content" :content="text.content" />
         </v-container>
     </v-card>
 </template>
@@ -53,8 +52,8 @@ const config = useRuntimeConfig().public;
 const url = computed(() => config.appBase + route.fullPath);
 
 
-const response = await find("articles", {
-    filters: { slug: "test-article" },
+const response = await find("texts", {
+    filters: { slug: "example-text" },
     populate: {
         content: {
             on: {
@@ -67,7 +66,7 @@ const response = await find("articles", {
                 'shared.seo': { populate: '*' },
                 'shared.accordion': {
                     populate: {
-                        article: {
+                        panels: {
                             populate: {
                                 content: {
                                     on: {
@@ -93,15 +92,15 @@ const response = await find("articles", {
 })
 
 
-const article = response.data[0]
-console.log('article', article)
-console.log('author', article?.author)
-console.log('category', article?.category)
+const text = response.data[0]
+console.log('text', text)
+console.log('author', text?.author)
+console.log('category', text?.category)
 
 const fullCoverUrl = computed(() => {
-    if (!article.cover?.url) return ''
+    if (!text.cover?.url) return ''
     const base = useRuntimeConfig().public.strapi.url
-    return article.cover.url.startsWith('http') ? article.cover.url : base.replace(/\/$/, '') + article.cover.url
+    return text.cover.url.startsWith('http') ? text.cover.url : base.replace(/\/$/, '') + text.cover.url
 })
 
 
@@ -109,7 +108,7 @@ const fullCoverUrl = computed(() => {
 </script>
 
 <style scoped>
-.article-content-container {
+.text-content-container {
     max-width: 1100px;
     margin-left: auto;
     margin-right: auto;
@@ -117,14 +116,14 @@ const fullCoverUrl = computed(() => {
     padding-right: 0;
 }
 
-.article-cover {
+.text-cover {
     width: 100%;
     display: flex;
     justify-content: center;
     margin-bottom: 1.5rem;
 }
 
-.article-cover-img {
+.text-cover-img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;

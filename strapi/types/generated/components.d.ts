@@ -3,11 +3,12 @@ import type { Schema, Struct } from '@strapi/strapi';
 export interface SharedAccordion extends Struct.ComponentSchema {
   collectionName: 'components_shared_accordions';
   info: {
+    description: '';
     displayName: 'Accordion';
     icon: 'cloud';
   };
   attributes: {
-    article: Schema.Attribute.Relation<'oneToOne', 'api::article.article'>;
+    panels: Schema.Attribute.Relation<'oneToMany', 'api::text.text'>;
   };
 }
 
