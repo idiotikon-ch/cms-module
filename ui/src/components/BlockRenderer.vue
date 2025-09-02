@@ -16,11 +16,13 @@
                             :nodes="block.body as BlockNode[]" />
                         <MarkdownRenderer v-else :content="block.body" />
                     </div>
-                    <!-- Render bare media blocks: show image, open ImageViewer on click -->
-                    <div v-else-if="block.__component && block.__component.includes('media') && block.file">
+                    <!-- Render bare media blocks: show image, open ImageViewer on click, centered -->
+                    <div v-else-if="block.__component && block.__component.includes('media') && block.file"
+                        class="d-flex flex-column align-center mb-4">
                         <v-img :src="getMediaUrl(block)" :alt="block.file.caption || ''" class="mb-2"
-                            style="max-width: 400px; cursor: pointer;" @click="openImageViewerGlobal(block)" />
-                        <div v-if="block.file.caption" class="slider-caption">{{ block.file.caption }}</div>
+                            style="width: 50%; max-width: 400px; min-width: 200px; height: auto; cursor: pointer;"
+                            @click="openImageViewerGlobal(block)" />
+                        <div v-if="block.file.caption" class="slider-caption text-center">{{ block.file.caption }}</div>
                     </div>
                     <!-- Render other image-tile-reference blocks (legacy, fallback) -->
                     <div v-else-if="block.__component && block.__component.includes('image-tile-reference')">
@@ -29,10 +31,12 @@
                     <v-carousel
                         v-else-if="block.__component && block.__component.includes('slider') && block.files && block.files.length"
                         hide-delimiter-background height="360" class="article-slider mb-6">
-                        <v-carousel-item v-for="(file, idx) in block.files" :key="file.id || idx" style="position:relative;">
+                        <v-carousel-item v-for="(file, idx) in block.files" :key="file.id || idx"
+                            style="position:relative;">
                             <img :src="getMediaUrl({ file })" :alt="file.alternativeText || file.caption || file.name"
                                 class="slider-img" />
-                            <div v-if="file.caption" class="slider-caption slider-caption--overlay">{{ file.caption }}</div>
+                            <div v-if="file.caption" class="slider-caption slider-caption--overlay">{{ file.caption }}
+                            </div>
                         </v-carousel-item>
                     </v-carousel>
                     <div v-else-if="block.__component && block.__component.includes('quote')">
@@ -184,12 +188,13 @@ function openImageViewerGlobal(block) {
     color: #444;
     margin-top: 0.5rem;
 }
+
 .slider-caption--overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     color: #fff;
     padding: 0.5rem 1rem;
     font-size: 1.1rem;
