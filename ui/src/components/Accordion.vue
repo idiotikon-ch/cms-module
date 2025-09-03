@@ -11,16 +11,7 @@
                 </v-expansion-panel-title>
                 <v-expansion-panel-text :id="'panel-content-' + i">
                     <BlockRenderer v-if="item.content" :content="item.content" />
-                    <!-- <slot v-else :name="`panel-${i}`" :item="item">
-                        <v-row>
-                            <v-col v-if="item.text">
-                                <MarkdownRenderer :content="item.text" />
-                            </v-col>
-                            <v-col v-for="picture in item.pictures" :key="picture.picture?.url" cols="12" :md="3">
-                                <v-img :src="`${cms_images_url}${picture.picture.url}`" cover></v-img>
-                            </v-col>
-                        </v-row>
-                    </slot> -->
+                    <slot v-else :name="`panel-${i}`" :item="item" />
                 </v-expansion-panel-text>
             </v-expansion-panel>
         </v-expansion-panels>
