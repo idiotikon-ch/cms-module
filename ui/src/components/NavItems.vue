@@ -1,5 +1,5 @@
 <template>
-    <v-list-group v-if="item.children && item.children.length" :value="false" :data-testid="item.title">
+    <v-list-group v-if="item.sub_menus && item.sub_menus.length" :value="false" :data-testid="item.title">
         <template #activator="{ props }">
             <v-list-item v-bind="props" :title="item.title" @click.stop.prevent="onSelect">
                 <template #prepend>
@@ -8,7 +8,7 @@
             </v-list-item>
         </template>
 
-        <NavItems v-for="subItem in item.children" :key="subItem.rank || subItem.title" :item="subItem"
+        <NavItems v-for="subItem in item.sub_menus" :key="subItem.rank || subItem.title" :item="subItem"
             :parentLink="fullLink" @select="forwardSelect" />
     </v-list-group>
 
