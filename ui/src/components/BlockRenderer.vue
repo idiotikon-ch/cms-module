@@ -4,7 +4,11 @@
             <!-- Render a flex row for a group of image-tile-reference blocks -->
             <div v-if="group[0].__component && group[0].__component.includes('image-tile-reference')"
                 class="image-tile-row">
-                <ImageTileLoader v-for="(block, i) in group" :key="i" :block="block" :size="block.size || 'default'" />
+                <template v-for="(block, i) in group" :key="i">
+                    <ImageTileLoader v-if="Array.isArray(block.tile)" v-for="(tileRef, j) in block.tile" :key="j"
+                        :block="{ tile: tileRef }" :size="block.size || 'default'" />
+                    <ImageTileLoader v-else :block="block" :size="block.size || 'default'" />
+                </template>
             </div>
             <Accordion v-else-if="group[0].__component && group[0].__component.includes('accordion')"
                 :content="group[0].panels" />

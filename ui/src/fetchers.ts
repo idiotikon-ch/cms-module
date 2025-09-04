@@ -11,7 +11,7 @@ export const fetchDocument = async <T = any>(
   contentType: string,
   slug: string,
   target: any,
-  populate: string[] | Record<string, any> = []
+  populate: {} | Record<string, any> = {}
 ) => {
   const { find } = useStrapi()
   try {
@@ -19,7 +19,7 @@ export const fetchDocument = async <T = any>(
       filters: { slug },
       populate,
     })
-    console.log("Success:", response.data[0])
+    // console.log("Success:", response.data[0])
     target.value = response.data?.[0] || null
   } catch (error) {
     console.error(`Error fetching ${contentType} by slug ${slug}:`, error)
