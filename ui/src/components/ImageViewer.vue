@@ -2,12 +2,15 @@
     <v-dialog @click="imgClick" content-class="custom-dialog d-flex" v-model="model" opacity="0.85">
         <v-carousel class="flex" height="100%" hide-delimiters :show-arrows="images.length > 1" v-model="carouselIndex">
             <v-carousel-item v-for="(img, index) in images" :key="index">
-                <v-img :maxHeight="displayHeight" contain
-                    :src="img.picture.url.startsWith('http') ? img.picture.url : `${cmsImagesUrl}${img.picture.url}`"></v-img>
+                <v-img :maxHeight="displayHeight" contain :src="img.src
+                    ? (img.src.startsWith('http') ? img.src : `${cmsImagesUrl}${img.src}`)
+                    : (img.picture && img.picture.url
+                        ? (img.picture.url.startsWith('http') ? img.picture.url : `${cmsImagesUrl}${img.picture.url}`)
+                        : '')" :alt="img.alt || img.title || ''"></v-img>
                 <v-btn v-if="handlers" variant="outlined" color="white" @click.stop="model = false" :icon="mdiClose"
                     class="close-btn"></v-btn>
-                <v-sheet v-if="img.title" class="title-sheet" v-show="handlers">
-                    <div class="title-text" v-html="img.title" />
+                <v-sheet v-if="img.title || img.alt" class="title-sheet" v-show="handlers">
+                    <div class="title-text" v-html="img.title || img.alt" />
                 </v-sheet>
                 <v-sheet v-if="handlers && (img.legend || img.content)" class="legend-sheet" :style="{
                     minHeight: compactLegend ? '' : '180px',
@@ -68,7 +71,12 @@ const model = computed({
 const handlers = ref(true);
 const { index } = toRefs(props);
 const cmsImagesUrl = useRuntimeConfig().public.strapi.url;
-const displayHeight = ref(window.innerHeight);
+const displayHeight = ref(600); // safe default
+onMounted(() => {
+    displayHeight.value = window.innerHeight;
+    window.addEventListener('keydown', keyDown);
+    window.addEventListener('resize', updateDisplayHeight);
+});
 const carouselIndex = ref(0);
 
 watch(index, (ind) => {
