@@ -34,10 +34,12 @@
 import { mdiChevronLeft, mdiChevronRight, mdiClose } from '@mdi/js';
 import { ref, watch, onMounted, onUnmounted, computed } from 'vue';
 
+
 /**
  * Props:
  * - images: Array of image objects with `url`, `title`, and `legend`.
  * - index: Starting index for the carousel.
+ *
  * - modelValue: Controls the visibility of the modal (v-model).
  * - compactLegend: Toggles compact layout for the legend.
  *
@@ -63,13 +65,13 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'close']);
 const model = computed({
     get: () => props.modelValue,
     set: (v) => emit('update:modelValue', v),
 });
 const handlers = ref(true);
-const { index } = toRefs(props);
+
 const cmsImagesUrl = useRuntimeConfig().public.strapi.url;
 const displayHeight = ref(600); // safe default
 onMounted(() => {
@@ -77,10 +79,31 @@ onMounted(() => {
     window.addEventListener('keydown', keyDown);
     window.addEventListener('resize', updateDisplayHeight);
 });
+
+const { index } = toRefs(props);
 const carouselIndex = ref(0);
 
+// Set initial index from index prop when opened
+watch(
+    () => [props.modelValue, props.index],
+    ([open, idx]) => {
+        if (open && typeof idx === 'number') {
+            carouselIndex.value = idx;
+        }
+    },
+    { immediate: true }
+);
+
+// Keep carouselIndex in sync with index prop if it changes
 watch(index, (ind) => {
-    carouselIndex.value = ind;
+    if (typeof ind === 'number') carouselIndex.value = ind;
+});
+
+// Emit close event with last viewed index when dialog closes
+watch(model, (val, oldVal) => {
+    if (oldVal && !val) {
+        emit('close', carouselIndex.value);
+    }
 });
 
 onMounted(() => {
