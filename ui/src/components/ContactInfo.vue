@@ -1,15 +1,15 @@
 <template>
     <div class="contact-info">
         <div v-if="address" class="contact-row">
-            <fa :icon="['fas', 'map-marker-alt']" class="icon" />
+            <v-icon class="icon">mdi-map-marker</v-icon>
             <span class="contact-text" v-html="formatMultiline(address)"></span>
         </div>
         <div v-if="email" class="contact-row">
-            <fa :icon="['fas', 'envelope']" class="icon" />
+            <v-icon class="icon">mdi-email</v-icon>
             <a :href="`mailto:${email}`" class="contact-text">{{ email }}</a>
         </div>
         <div v-if="phone" class="contact-row">
-            <fa :icon="['fas', 'phone']" class="icon" />
+            <v-icon class="icon">mdi-phone</v-icon>
             <span class="contact-text" v-html="formatMultiline(phone)"></span>
         </div>
     </div>

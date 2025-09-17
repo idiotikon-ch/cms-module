@@ -5,7 +5,7 @@
                 <v-img :src="imageUrl" cover class="tile-image tile-image--fill" />
                 <v-btn v-show="isHovering" color="black" variant="flat"
                     :style="{ zIndex: 1000, bottom: '10%', right: '10%', opacity: 0.6, position: 'absolute' }"
-                    :icon="mdiMagnifyExpand"></v-btn>
+                    icon="mdi-magnify-expand"></v-btn>
             </v-card>
         </v-hover>
         <idiCmsImageViewer :compactLegend="compactLegend" :images="images" v-model="dialog"></idiCmsImageViewer>
@@ -16,7 +16,6 @@
 import { ref, computed, unref } from 'vue'
 import { useTile } from '../composables/useTile'
 import idiCmsImageViewer from './ImageViewer.vue'
-import { mdiMagnifyExpand } from '@mdi/js'
 
 const props = defineProps({
     tile: {
