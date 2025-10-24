@@ -23,6 +23,7 @@
 import MarkdownRenderer from '../components/MarkdownRenderer.vue'
 import BlockRenderer from './BlockRenderer.vue'
 import { ref, onMounted, watch, computed } from 'vue'
+import { useRoute } from '#imports'
 const route = useRoute()
 const runtimeConfig = useRuntimeConfig()
 const cms_images_url = runtimeConfig.public.strapi.url
