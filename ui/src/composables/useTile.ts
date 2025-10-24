@@ -6,7 +6,13 @@ export function useTile(tile: any) {
     const p = tile?.value || tile?.picture || tile
     if (!p) return ""
     const pic = p.picture || p
-    return base + (pic.url || pic.formats?.thumbnail?.url || "")
+    let url = pic.url || pic.formats?.thumbnail?.url || ""
+    if (!url) return ""
+    // Only prepend base if url is relative
+    if (/^https?:\/\//.test(url)) {
+      return url
+    }
+    return base.replace(/\/$/, "") + url
   })
   return { imageUrl }
 }

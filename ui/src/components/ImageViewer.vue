@@ -3,9 +3,9 @@
         <v-carousel class="flex" height="100%" hide-delimiters :show-arrows="images.length > 1" v-model="carouselIndex">
             <v-carousel-item v-for="(img, index) in images" :key="index">
                 <v-img :maxHeight="displayHeight" contain :src="img.src
-                    ? (img.src.startsWith('http') ? img.src : `${cmsImagesUrl}${img.src}`)
+                    ? img.src
                     : (img.picture && img.picture.url
-                        ? (img.picture.url.startsWith('http') ? img.picture.url : `${cmsImagesUrl}${img.picture.url}`)
+                        ? img.picture.url
                         : '')" :alt="img.alt || img.title || ''"></v-img>
                 <v-btn v-if="handlers" variant="outlined" color="white" @click.stop="model = false" :icon="mdiClose"
                     class="close-btn"></v-btn>
@@ -72,7 +72,7 @@ const model = computed({
 });
 const handlers = ref(true);
 
-const cmsImagesUrl = useRuntimeConfig().public.strapi.url;
+// No longer needed: expect absolute URLs only
 const displayHeight = ref(600); // safe default
 onMounted(() => {
     displayHeight.value = window.innerHeight;
