@@ -1,4 +1,5 @@
 import { computed } from "vue"
+import { useRuntimeConfig } from "#imports"
 
 export function useTile(tile: any) {
   const base = useRuntimeConfig()?.public?.strapi?.url || ""

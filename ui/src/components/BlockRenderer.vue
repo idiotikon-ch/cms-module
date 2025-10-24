@@ -67,6 +67,7 @@ import MarkdownRenderer from './MarkdownRenderer.vue'
 import Accordion from './Accordion.vue'
 import ImageViewer from './ImageViewer.vue'
 import type { BlockNode } from '#strapi-blocks-renderer/types';
+import { useRuntimeConfig } from '#imports'
 
 
 const props = defineProps({
