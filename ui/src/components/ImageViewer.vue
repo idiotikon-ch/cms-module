@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import { mdiChevronLeft, mdiChevronRight, mdiClose } from '@mdi/js';
-import { ref, watch, onMounted, onUnmounted, computed } from 'vue';
+import { ref, watch, onMounted, onUnmounted, computed, toRefs } from 'vue';
 
 
 /**
