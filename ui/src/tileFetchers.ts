@@ -1,4 +1,5 @@
 import type { ApiTileTile } from "../../../strapi/types/generated/contentTypes"
+import { useStrapi } from "#imports"
 
 // Rename ApiTileTile to Tile for clarity
 export type Tile = ApiTileTile
