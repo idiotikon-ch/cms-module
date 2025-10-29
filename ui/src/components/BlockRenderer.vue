@@ -65,7 +65,7 @@ import ImageTileLoader from './ImageTileLoader.vue'
 import MarkdownRenderer from './MarkdownRenderer.vue'
 import Accordion from './Accordion.vue'
 import ImageViewer from './ImageViewer.vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
     content: {
