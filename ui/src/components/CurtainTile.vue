@@ -29,6 +29,7 @@ import mitt from "mitt"; // Import mitt for event bus functionality
 import { ref, onMounted, onUnmounted } from "vue"; // Import Vue composition API functions
 import { useTile } from '../composables/useTile'
 import MarkdownRenderer from '../components/MarkdownRenderer.vue'
+import { useDevice } from '#imports'
 
 
 const { isDesktop } = useDevice()
