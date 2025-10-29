@@ -33,7 +33,7 @@
             <div v-if="text.cover" class="text-cover">
                 <img :src="fullCoverUrl" :alt="text.title" class="text-cover-img" />
             </div>
-            <BlockRenderer v-if="text.content" :content="text.content" />
+            <BlockRenderer v-if="text.content" :content="text.content" :baseUrl="config.strapi.url" />
         </v-container>
     </v-card>
 </template>
@@ -93,9 +93,6 @@ const response = await find("texts", {
 
 
 const text = response.data[0]
-console.log('text', text)
-console.log('author', text?.author)
-console.log('category', text?.category)
 
 const fullCoverUrl = computed(() => {
     if (!text.cover?.url) return ''

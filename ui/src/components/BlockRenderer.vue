@@ -61,18 +61,19 @@
 
 <script setup lang="ts">
 
-import { defineProps, computed, ref } from 'vue'
 import ImageTileLoader from './ImageTileLoader.vue'
 import MarkdownRenderer from './MarkdownRenderer.vue'
 import Accordion from './Accordion.vue'
 import ImageViewer from './ImageViewer.vue'
-import type { BlockNode } from '#strapi-blocks-renderer/types';
-import { useRuntimeConfig } from '#imports'
 
 
 const props = defineProps({
     content: {
         type: Array,
+        required: true
+    },
+    baseUrl: {
+        type: String,
         required: true
     }
 })
@@ -131,9 +132,10 @@ function openImageViewer(blocks, idx) {
 
 // Helper to calculate correct media URL (like useTile)
 function getMediaUrl(block: any) {
-    const base = typeof useRuntimeConfig === 'function' ? useRuntimeConfig()?.public?.strapi?.url || '' : ''
     const file = block?.file || {}
-    return base + (file.formats?.large?.url || file.formats?.medium?.url || file.url || file.formats?.thumbnail?.url || '')
+    const url = file.formats?.large?.url || file.formats?.medium?.url || file.url || file.formats?.thumbnail?.url || ''
+    if (!url) return ''
+    return url.startsWith('http') ? url : props.baseUrl.replace(/\/$/, '') + url
 }
 
 const allMediaBlocks = computed(() => {

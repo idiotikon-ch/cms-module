@@ -26,11 +26,9 @@
 <script lang="ts" setup>
 import { useDisplay } from "vuetify"
 import mitt from "mitt"; // Import mitt for event bus functionality
-import { ref, onMounted, onUnmounted } from "vue"; // Import Vue composition API functions
-import { useTile } from '../composables/useTile'
+import { ref, onMounted, onUnmounted, computed } from "vue"; // Import Vue composition API functions
 import MarkdownRenderer from '../components/MarkdownRenderer.vue'
 import { useDevice } from '#imports'
-
 
 const { isDesktop } = useDevice()
 const { tile, eventBus: providedEventBus } = defineProps({
@@ -42,8 +40,11 @@ const { tile, eventBus: providedEventBus } = defineProps({
   },
 });
 
-const { imageUrl } = useTile(tile)
-const imgUrl = ref(imageUrl.value)
+// Extract the absolute image URL from the tile (no construction)
+const imgUrl = computed(() => {
+  const pic = Array.isArray(tile.picture) ? tile.picture[0] : tile.picture;
+  return pic?.url || '';
+})
 const cardRef = ref()
 const inViewport = ref(false)
 const { height } = useDisplay()

@@ -14,7 +14,6 @@
 
 <script setup lang="ts">
 import { ref, computed, unref } from 'vue'
-import { useTile } from '../composables/useTile'
 import idiCmsImageViewer from './ImageViewer.vue'
 
 const props = defineProps({
@@ -35,10 +34,13 @@ const props = defineProps({
 
 const dialog = ref(false)
 
-// use the shared composable which already handles refs or plain objects
-const { imageUrl } = useTile(props.tile)
+// Extract the absolute image URL from the tile (no construction)
+const imageUrl = computed(() => {
+    const pic = Array.isArray(props.tile.picture) ? props.tile.picture[0] : props.tile.picture;
+    return pic?.url || '';
+})
 
-// ensure ImageViewer receives a plain, non-reactive array of image objects
+// Pass the tile object as-is to ImageViewer (assume URLs are absolute)
 const images = computed(() => {
     const t = unref(props.tile)
     return t ? [JSON.parse(JSON.stringify(t))] : []

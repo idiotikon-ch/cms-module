@@ -39,5 +39,5 @@ export const fetchTile = async (id: string, target: any) => {
     console.error(`Error fetching tile ${id}:`, error)
     target.value = null
   }
-  console.log(`Fetched tile ${id}:`, target.value)
+  // console.log(`Fetched tile ${id}:`, target.value)
 }

@@ -26,7 +26,6 @@
 
 <script lang="ts" setup>
 
-import { useTile } from '../composables/useTile'
 import MarkdownRenderer from '../components/MarkdownRenderer.vue'
 
 const props = defineProps({
@@ -36,7 +35,11 @@ const props = defineProps({
   },
 })
 
-const { imageUrl } = useTile(props.tile)
+// Extract the absolute image URL from the tile (no construction)
+const imageUrl = computed(() => {
+  const pic = Array.isArray(props.tile.picture) ? props.tile.picture[0] : props.tile.picture;
+  return pic?.url || '';
+})
 </script>
 
 <style scoped></style>

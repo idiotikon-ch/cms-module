@@ -10,7 +10,7 @@
                     <span v-if="item.subtitle" class="subtitle">{{ item.subtitle }}</span>
                 </v-expansion-panel-title>
                 <v-expansion-panel-text :id="'panel-content-' + i">
-                    <BlockRenderer v-if="item.content" :content="item.content" />
+                    <BlockRenderer v-if="item.content" :content="item.content" :baseUrl="cms_images_url" />
                     <slot v-else :name="`panel-${i}`" :item="item" />
                 </v-expansion-panel-text>
             </v-expansion-panel>
