@@ -5,9 +5,13 @@
             <div v-if="group[0].__component && group[0].__component.includes('image-tile-reference')"
                 class="image-tile-row">
                 <template v-for="(block, i) in group" :key="i">
-                    <ImageTileLoader v-if="Array.isArray(block.tile)" v-for="(tileRef, j) in block.tile" :key="j"
-                        :block="{ tile: tileRef }" :size="block.size || 'default'" />
-                    <ImageTileLoader v-else :block="block" :size="block.size || 'default'" />
+                    <template v-if="Array.isArray(block.tile)">
+                        <ImageTileLoader v-for="(tileRef, j) in block.tile" :key="j" :block="{ tile: tileRef }"
+                            :size="block.size || 'default'" :baseUrl="baseUrl" />
+                    </template>
+                    <template v-else>
+                        <ImageTileLoader :block="block" :size="block.size || 'default'" :baseUrl="baseUrl" />
+                    </template>
                 </template>
             </div>
             <Accordion v-else-if="group[0].__component && group[0].__component.includes('accordion')"
@@ -30,7 +34,14 @@
                     </div>
                     <!-- Render other image-tile-reference blocks (legacy, fallback) -->
                     <div v-else-if="block.__component && block.__component.includes('image-tile-reference')">
-                        <ImageTileLoader :block="block" :size="block.size || 'default'" />
+                        <template v-if="Array.isArray(block.tile)">
+                            <ImageTileLoader v-for="(tileObj, idx) in block.tile" :key="tileObj.id || idx"
+                                :block="{ tile: tileObj }" :size="block.size || 'default'" :baseUrl="baseUrl" />
+                        </template>
+                        <template v-else>
+                            <ImageTileLoader :block="{ tile: block.tile }" :size="block.size || 'default'"
+                                :baseUrl="baseUrl" />
+                        </template>
                     </div>
                     <v-carousel
                         v-else-if="block.__component && block.__component.includes('slider') && block.files && block.files.length"
