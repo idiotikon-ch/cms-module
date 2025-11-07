@@ -8,6 +8,7 @@
                     icon="mdi-magnify-expand"></v-btn>
             </v-card>
         </v-hover>
+        <div v-if="caption" class="tile-caption">{{ caption }}</div>
         <idiCmsImageViewer :compactLegend="compactLegend" :images="images" v-model="dialog"></idiCmsImageViewer>
     </div>
 </template>
@@ -29,6 +30,10 @@ const props = defineProps({
         type: String,
         default: 'w100',
         validator: (val: string) => ['w100', 'w50', 'w30', 'w25', 'w20'].includes(val)
+    },
+    caption: {
+        type: String,
+        required: false,
     }
 })
 
@@ -51,6 +56,14 @@ const images = computed(() => {
 .image-tile-root {
     display: flex;
     flex-direction: column;
+}
+
+.tile-caption {
+    color: #666;
+    font-size: 0.95em;
+    margin-top: 0.5em;
+    text-align: center;
+    font-style: italic;
 }
 
 /* Rely on global tiles.css for .tile-image so flex/min-height rules apply consistently */

@@ -7,10 +7,11 @@
                 <template v-for="(block, i) in group" :key="i">
                     <template v-if="Array.isArray(block.tile)">
                         <ImageTileLoader v-for="(tileRef, j) in block.tile" :key="j" :block="{ tile: tileRef }"
-                            :size="block.size || 'default'" :baseUrl="baseUrl" />
+                            :size="block.size || 'default'" :baseUrl="baseUrl" :caption="tileRef.title || ''" />
                     </template>
                     <template v-else>
-                        <ImageTileLoader :block="block" :size="block.size || 'default'" :baseUrl="baseUrl" />
+                        <ImageTileLoader :block="block" :size="block.size || 'default'" :baseUrl="baseUrl"
+                            :caption="block.tile && block.tile.title ? block.tile.title : ''" />
                     </template>
                 </template>
             </div>
@@ -36,11 +37,12 @@
                     <div v-else-if="block.__component && block.__component.includes('image-tile-reference')">
                         <template v-if="Array.isArray(block.tile)">
                             <ImageTileLoader v-for="(tileObj, idx) in block.tile" :key="tileObj.id || idx"
-                                :block="{ tile: tileObj }" :size="block.size || 'default'" :baseUrl="baseUrl" />
+                                :block="{ tile: tileObj }" :size="block.size || 'default'" :baseUrl="baseUrl"
+                                :caption="tileObj.title || ''" />
                         </template>
                         <template v-else>
                             <ImageTileLoader :block="{ tile: block.tile }" :size="block.size || 'default'"
-                                :baseUrl="baseUrl" />
+                                :baseUrl="baseUrl" :caption="block.tile && block.tile.title ? block.tile.title : ''" />
                         </template>
                     </div>
                     <v-carousel
