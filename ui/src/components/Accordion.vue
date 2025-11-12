@@ -1,6 +1,6 @@
 <template>
     <div class="accordion-root" :aria-label="ariaLabel" :role="'region'">
-        <v-expansion-panels v-model="panel" variant="accordion" multiple :style="{ width }" class="accordion-panels">
+        <v-expansion-panels v-model="panel" variant="accordion" multiple class="accordion-panels">
             <v-expansion-panel v-for="(item, i) in content" :id="'q' + (i + 1).toString()" :key="i" ref="hashRefs"
                 :class="item.customClass" :aria-expanded="panel.includes(i)" :aria-controls="'panel-content-' + i"
                 @group:selected="onPanelChange(i, $event)">
@@ -40,14 +40,14 @@ interface AccordionPanel {
 
 const props = defineProps<{
     content: AccordionPanel[],
-    width?: string,
+    // width?: string,
     backgroundImage?: string,
     ariaLabel?: string,
     panelTitleBgImage?: string,
     panelTitleBgColor?: string
 }>()
 
-const width = computed(() => props.width || '1000px')
+// const width = computed(() => props.width || '1000px')
 const backgroundImage = computed(() => props.backgroundImage)
 const ariaLabel = computed(() => props.ariaLabel || 'Accordion')
 const panelTitleBgImage = computed(() => props.panelTitleBgImage)
