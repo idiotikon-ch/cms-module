@@ -1,19 +1,18 @@
 <template>
   <v-hover v-slot="{ isHovering, props }">
-    <v-card ref="cardRef" class="flex w-100 tile-card" v-bind="props" external @click="
+    <v-card ref="cardRef" class="flex w-100 tile-card tile-card-fixed" v-bind="props" external @click="
       navigateTo(tile.link, {
         open: {
           target: tile.link_target_type,
         },
       })
       ">
-      <v-img cover :src="imgUrl" class="tile-image tile-image--fill" :gradient="tile.tile_category ? '' : 'rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)'
-        ">
+      <v-img cover :src="imgUrl" class="tile-image tile-image--fill"
+        :gradient="tile.tile_category ? '' : 'rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)'">
         <div class="px-5 pt-5 curtain text-wrap h-100" :class="isHovering || inViewport ? 'bg-primary' : ''" :style="{
           transform: isHovering || inViewport ? '' : 'translateY(45%)',
           opacity: isHovering || inViewport ? 0.8 : 1,
         }">
-
           <MarkdownRenderer v-if="tile" :content="tile.title" class="text-center text-h5 font-weight-bold" />
           <MarkdownRenderer v-if="tile" :content="tile.content" class="text-body-2"
             :style="{ opacity: isHovering || inViewport ? 1 : 0 }" />
@@ -91,6 +90,13 @@ onUnmounted(() => {
   justify-content: center;
 
   transition: all 0.5s ease;
+}
+
+/* Add a fixed min-height for consistent tile heights in a row */
+.tile-card-fixed {
+  height: 340px;
+  display: flex;
+  flex-direction: column;
 }
 </style>
 <style scoped>
