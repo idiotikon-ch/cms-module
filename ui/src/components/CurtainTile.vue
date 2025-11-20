@@ -1,20 +1,18 @@
 <template>
-  <v-hover v-slot="{ isHovering, props }">
-    <v-card ref="cardRef" class="flex w-100 tile-card tile-card-fixed" v-bind="props" external @click="
-      navigateTo(tile.link, {
-        open: {
-          target: tile.link_target_type,
-        },
-      })
-      ">
-      <v-img cover :src="imgUrl" class="tile-image tile-image--fill"
-        :gradient="tile.tile_category ? '' : 'rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)'">
-        <div class="px-5 pt-5 curtain text-wrap h-100" :class="isHovering || inViewport ? 'bg-primary' : ''" :style="{
+  <v-hover v-slot="{ isHovering, props: hoverProps }">
+    <v-card ref="cardRef" class="flex w-100 tile-card tile-card-fill" v-bind="hoverProps" external
+      @click="navigateTo(props.tile && props.tile.link, { open: { target: props.tile && props.tile.link_target_type } })"
+      :style="props.height ? { height: typeof props.height === 'number' ? props.height + 'px' : props.height } : { height: '100%' }">
+      <v-img cover :src="imgUrl" class="tile-image tile-image--fill tile-img-fill"
+        :gradient="props.tile && props.tile.tile_category ? '' : 'rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)'"
+        height="100%">
+        <div class="curtain curtain-absolute text-wrap" :class="isHovering || inViewport ? 'bg-primary' : ''" :style="{
           transform: isHovering || inViewport ? '' : 'translateY(45%)',
           opacity: isHovering || inViewport ? 0.8 : 1,
         }">
-          <MarkdownRenderer v-if="tile" :content="tile.title" class="text-center text-h5 font-weight-bold" />
-          <MarkdownRenderer v-if="tile" :content="tile.content" class="text-body-2"
+          <MarkdownRenderer v-if="props.tile" :content="props.tile.title"
+            class="text-center text-h5 font-weight-bold" />
+          <MarkdownRenderer v-if="props.tile" :content="props.tile.content" class="text-body-2"
             :style="{ opacity: isHovering || inViewport ? 1 : 0 }" />
         </div>
       </v-img>
@@ -30,18 +28,23 @@ import MarkdownRenderer from '../components/MarkdownRenderer.vue'
 import { useDevice } from '#imports'
 
 const { isDesktop } = useDevice()
-const { tile, eventBus: providedEventBus } = defineProps({
+const props = defineProps({
   tile: Object,
   eventBus: {
     type: Object,
     required: false,
     default: () => null,
   },
+  height: {
+    type: [String, Number],
+    required: false,
+    default: null,
+  },
 });
 
 // Extract the absolute image URL from the tile (no construction)
 const imgUrl = computed(() => {
-  const pic = Array.isArray(tile.picture) ? tile.picture[0] : tile.picture;
+  const pic = Array.isArray(props.tile?.picture) ? props.tile.picture[0] : props.tile?.picture;
   return pic?.url || '';
 })
 const cardRef = ref()
@@ -49,7 +52,7 @@ const inViewport = ref(false)
 const { height } = useDisplay()
 
 // Use provided event bus or create a local instance
-const eventBus = providedEventBus || mitt();
+const eventBus = props.eventBus || mitt();
 
 onMounted(function () {
   if (!isDesktop) {
@@ -85,18 +88,35 @@ onUnmounted(() => {
 })
 </script>
 <style scoped>
+/* Overlay content absolutely centered over the image */
 .curtain {
   color: white;
   justify-content: center;
-
   transition: all 0.5s ease;
 }
-
-/* Add a fixed min-height for consistent tile heights in a row */
-.tile-card-fixed {
-  height: 340px;
+.curtain-absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  padding: 0 1.5rem;
+}
+
+.tile-card-fill {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.tile-img-fill {
+  height: 100% !important;
+  min-height: 0 !important;
 }
 </style>
 <style scoped>

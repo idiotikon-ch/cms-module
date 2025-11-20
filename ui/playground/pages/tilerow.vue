@@ -42,13 +42,13 @@ onMounted(async () => {
 <template>
     <v-row justify="center">
         <v-col cols="12" sm="6" md="4" class="flex" v-if="tile">
-            <CurtainTile :tile="tile" class="tile-card-fixed" />
+            <CurtainTile :tile="tile" :height="340" />
         </v-col>
         <v-col cols="12" sm="6" md="4" class="flex" v-if="tile2">
-            <CurtainTile :tile="tile2" class="tile-card-fixed" />
+            <CurtainTile :tile="tile2" :height="340" />
         </v-col>
         <v-col cols="12" sm="6" md="4" class="flex" v-if="tile3">
-            <CurtainTile :tile="tile3" class="tile-card-fixed" />
+            <CurtainTile :tile="tile3" :height="340" />
         </v-col>
     </v-row>
 </template>
