@@ -160,7 +160,7 @@ function imgClick() {
 
 .title-sheet {
     position: fixed;
-    top: 24px;
+    top: 0;
     left: 20%;
     right: 20%;
     background-color: rgba(0, 0, 0, 0.7);
@@ -175,7 +175,7 @@ function imgClick() {
 
 .legend-sheet {
     position: fixed;
-    bottom: 24px;
+    bottom: 0;
     left: 10%;
     right: 10%;
     background-color: rgba(0, 0, 0, 0.7);
