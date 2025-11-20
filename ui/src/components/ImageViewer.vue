@@ -1,6 +1,7 @@
 <template>
-    <v-dialog @click="imgClick" content-class="custom-dialog d-flex" v-model="model" opacity="0.85">
-        <v-carousel class="flex" height="100%" hide-delimiters :show-arrows="images.length > 1" v-model="carouselIndex">
+    <v-dialog @click="imgClick" content-class="custom-dialog d-flex" v-model="model" opacity="0.85" fullscreen>
+        <v-carousel ref="carousel" class="flex" height="100%" hide-delimiters :show-arrows="images.length > 1"
+            v-model="carouselIndex">
             <v-carousel-item v-for="(img, index) in images" :key="index">
                 <v-img :maxHeight="displayHeight" contain :src="img.src
                     ? img.src
@@ -32,7 +33,7 @@
 
 <script setup lang="ts">
 import { mdiChevronLeft, mdiChevronRight, mdiClose } from '@mdi/js';
-import { ref, watch, onMounted, onUnmounted, computed, toRefs } from 'vue';
+import { ref, watch, onMounted, onUnmounted, computed, toRefs, nextTick } from 'vue';
 
 
 /**
@@ -71,13 +72,18 @@ const model = computed({
     set: (v) => emit('update:modelValue', v),
 });
 const handlers = ref(true);
+const carousel = ref(null);
 
-// No longer needed: expect absolute URLs only
 const displayHeight = ref(600); // safe default
+
 onMounted(() => {
-    displayHeight.value = window.innerHeight;
     window.addEventListener('keydown', keyDown);
     window.addEventListener('resize', updateDisplayHeight);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('keydown', keyDown);
+    window.removeEventListener('resize', updateDisplayHeight);
 });
 
 const { index } = toRefs(props);
@@ -99,25 +105,23 @@ watch(index, (ind) => {
     if (typeof ind === 'number') carouselIndex.value = ind;
 });
 
-// Emit close event with last viewed index when dialog closes
-watch(model, (val, oldVal) => {
-    if (oldVal && !val) {
+// Watch for the dialog opening to correctly calculate height
+watch(model, (isOpen) => {
+    if (isOpen) {
+        nextTick(() => {
+            updateDisplayHeight();
+        });
+    } else {
+        // Optional: emit close event if needed
         emit('close', carouselIndex.value);
     }
 });
 
-onMounted(() => {
-    window.addEventListener('keydown', keyDown);
-    window.addEventListener('resize', updateDisplayHeight);
-});
-
-onUnmounted(() => {
-    window.removeEventListener('keydown', keyDown);
-    window.removeEventListener('resize', updateDisplayHeight);
-});
-
 function updateDisplayHeight() {
-    displayHeight.value = window.innerHeight;
+    if (carousel.value) {
+        // Use the carousel's actual client height
+        displayHeight.value = carousel.value.$el.clientHeight;
+    }
 }
 
 function keyDown(e) {
