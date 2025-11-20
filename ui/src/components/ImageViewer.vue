@@ -165,8 +165,8 @@ function imgClick() {
 .title-sheet {
     position: fixed;
     top: 0;
-    left: 20%;
-    right: 20%;
+    left: 5%;
+    right: 5%;
     background-color: rgba(0, 0, 0, 0.7);
     padding: 1rem;
 }
@@ -180,8 +180,8 @@ function imgClick() {
 .legend-sheet {
     position: fixed;
     bottom: 0;
-    left: 10%;
-    right: 10%;
+    left: 5%;
+    right: 5%;
     background-color: rgba(0, 0, 0, 0.7);
     padding: 1rem;
 }
