@@ -5,7 +5,7 @@
                 <v-img :src="imageUrl" cover class="tile-image tile-image--fill" />
                 <v-btn v-show="isHovering" color="black" variant="flat"
                     :style="{ zIndex: 1000, bottom: '10%', right: '10%', opacity: 0.6, position: 'absolute' }"
-                    icon="mdi-magnify-expand"></v-btn>
+                    :icon="mdiMagnifyScan"></v-btn>
             </v-card>
         </v-hover>
         <div v-if="caption" class="tile-caption">{{ caption }}</div>
@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import { ref, computed, unref } from 'vue'
 import idiCmsImageViewer from './ImageViewer.vue'
+import { mdiMagnifyScan } from '@mdi/js'
 
 const props = defineProps({
     tile: {
