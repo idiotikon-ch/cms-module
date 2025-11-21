@@ -181,6 +181,7 @@ function openImageViewerGlobal(block) {
     flex-wrap: wrap;
     gap: 0.5rem;
     align-items: flex-start;
+    padding-bottom: 1em;
 }
 
 .image-tile-root.w50 {
