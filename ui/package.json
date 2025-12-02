@@ -28,6 +28,7 @@
     "@nuxt/kit": "^4.0.3",
     "@nuxtjs/device": "^3.2.4",
     "@strapi/client": "^1.4.0",
+    "markdown-it": "^14.1.0",
     "markdown-it-footnote": "^4.0.0",
     "nuxt-strapi-blocks-renderer": "^1.1.0",
     "sass": "^1.90.0",

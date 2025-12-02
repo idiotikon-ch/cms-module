@@ -1,15 +1,15 @@
 <template>
     <div class="contact-info">
         <div v-if="address" class="contact-row">
-            <v-icon class="icon">mdi-map-marker</v-icon>
+            <v-icon class="icon" :icon="mdiMapMarker"></v-icon>
             <span class="contact-text" v-html="formatMultiline(address)"></span>
         </div>
         <div v-if="email" class="contact-row">
-            <v-icon class="icon">mdi-email</v-icon>
+            <v-icon class="icon" :icon="mdiEmail"></v-icon>
             <a :href="`mailto:${email}`" class="contact-text">{{ email }}</a>
         </div>
         <div v-if="phone" class="contact-row">
-            <v-icon class="icon">mdi-phone</v-icon>
+            <v-icon class="icon" :icon="mdiPhone"></v-icon>
             <span class="contact-text" v-html="formatMultiline(phone)"></span>
         </div>
     </div>
@@ -17,6 +17,8 @@
 
 <script setup lang="ts">
 import { defineProps } from 'vue'
+import { mdiMapMarker, mdiEmail, mdiPhone } from '@mdi/js'
+
 // Make sure FontAwesome is globally registered in your app
 const props = defineProps<{
     address?: string,
