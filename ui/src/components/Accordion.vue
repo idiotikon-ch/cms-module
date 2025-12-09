@@ -1,9 +1,9 @@
 <template>
     <div class="accordion-root" :aria-label="ariaLabel" :role="'region'">
-        <v-expansion-panels v-model="panel" variant="accordion" multiple class="accordion-panels">
+        <v-expansion-panels v-model="panel" variant="accordion" :multiple="props.multiple" class="accordion-panels">
             <v-expansion-panel v-for="(item, i) in content" :id="'q' + (i + 1).toString()" :key="i" ref="hashRefs"
-                :class="item.customClass" :aria-expanded="panel.includes(i)" :aria-controls="'panel-content-' + i"
-                @group:selected="onPanelChange(i, $event)">
+                :class="item.customClass" :aria-expanded="props.multiple ? (panel && panel.includes(i)) : panel === i"
+                :aria-controls="'panel-content-' + i" @group:selected="onPanelChange(i, $event)">
                 <v-expansion-panel-title class="idcms_accordion" color="primary">
                     <v-icon v-if="item.icon" class="mr-2">{{ item.icon }}</v-icon>
                     <span>{{ item.title }}</span>
@@ -44,7 +44,8 @@ const props = defineProps<{
     backgroundImage?: string,
     ariaLabel?: string,
     panelTitleBgImage?: string,
-    panelTitleBgColor?: string
+    panelTitleBgColor?: string,
+    multiple?: boolean
 }>()
 
 // const width = computed(() => props.width || '1000px')
