@@ -26,14 +26,10 @@ const props = defineProps<{
     phone?: string
 }>()
 
-function escapeHtml(str: string) {
-    return str.replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\'': '&#39;', '"': '&quot;' }[c] || c));
-}
-
 function formatMultiline(str?: string) {
     if (!str) return '';
-    // Replace both literal '\n' and real newlines
-    return escapeHtml(str).replace(/\\n|\n/g, '<br>');
+    // Replace both literal '\n' and real newlines without escaping HTML
+    return str.replace(/\\n|\n/g, '<br>');
 }
 </script>
 
