@@ -1,7 +1,6 @@
 <template>
   <v-hover v-slot="{ isHovering, props: hoverProps }">
-    <v-card ref="cardRef" class="flex w-100 tile-card tile-card-fill" v-bind="hoverProps" external
-      @click="navigateTo(props.tile && props.tile.link, { open: { target: props.tile && props.tile.link_target_type } })"
+    <v-card ref="cardRef" class="flex w-100 tile-card tile-card-fill" v-bind="hoverProps" external @click="handleClick"
       :style="props.height ? { height: typeof props.height === 'number' ? props.height + 'px' : props.height } : { height: '100%' }">
       <v-img cover :src="imgUrl" class="tile-image tile-image--fill tile-img-fill"
         :gradient="props.tile && props.tile.tile_category ? '' : 'rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)'"
@@ -25,7 +24,7 @@ import { useDisplay } from "vuetify"
 import mitt from "mitt"; // Import mitt for event bus functionality
 import { ref, onMounted, onUnmounted, computed } from "vue"; // Import Vue composition API functions
 import MarkdownRenderer from '../components/MarkdownRenderer.vue'
-import { useDevice } from '#imports'
+import { useDevice, navigateTo } from '#imports'
 
 const { isDesktop } = useDevice()
 const props = defineProps({
@@ -40,6 +39,11 @@ const props = defineProps({
     required: false,
     default: null,
   },
+  newTab: {
+    type: Boolean,
+    required: false,
+    default: undefined,
+  },
 });
 
 // Extract the absolute image URL from the tile (no construction)
@@ -47,6 +51,37 @@ const imgUrl = computed(() => {
   const pic = Array.isArray(props.tile?.picture) ? props.tile.picture[0] : props.tile?.picture;
   return pic?.url || '';
 })
+
+const linkTarget = computed(() => {
+  // if newTab is explicitly true, open in new tab
+  if (props.newTab === true) {
+    return '_blank';
+  }
+  // if newTab is explicitly false, open in same tab
+  if (props.newTab === false) {
+    return '_self';
+  }
+  // if newTab is undefined, check the CMS data
+  if (props.tile.link_target_type === 'new-tab') {
+    return '_blank';
+  }
+  if (props.tile.link_target_type === 'same-tab') {
+    return '_self';
+  }
+  // Fallback to '_self' if nothing is specified
+  return '_self';
+});
+
+function handleClick() {
+  const link = props.tile?.link;
+  const cmsTarget = props.tile?.link_target_type;
+  const finalTarget = linkTarget.value;
+
+  if (link) {
+    navigateTo(link, { open: { target: finalTarget } });
+  }
+}
+
 const cardRef = ref()
 const inViewport = ref(false)
 const { height } = useDisplay()
@@ -94,6 +129,7 @@ onUnmounted(() => {
   justify-content: center;
   transition: all 0.5s ease;
 }
+
 .curtain-absolute {
   position: absolute;
   top: 0;
@@ -114,6 +150,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
 }
+
 .tile-img-fill {
   height: 100% !important;
   min-height: 0 !important;
