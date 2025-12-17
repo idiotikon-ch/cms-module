@@ -1,5 +1,5 @@
 <template>
-    <v-list-group v-if="item.sub_menus && item.sub_menus.length" :value="false" :data-testid="item.title">
+    <v-list-group v-if="item.sub_menus && item.sub_menus.length" :data-testid="item.title">
         <template #activator="{ props }">
             <v-list-item v-bind="props" :title="item.title" @click.stop.prevent="onSelect">
                 <template #prepend>
