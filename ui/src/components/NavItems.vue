@@ -3,19 +3,19 @@
         <template #activator="{ props }">
             <v-list-item v-bind="props" :title="item.title" @click.stop.prevent="onSelect">
                 <template #prepend>
-                    <v-icon v-if="item.icon">{{ item.icon }}</v-icon>
+                    <v-icon v-if="item.icon">{{ iconMap[item.icon] || item.icon }}</v-icon>
                 </template>
             </v-list-item>
         </template>
 
         <NavItems v-for="subItem in item.sub_menus" :key="subItem.rank || subItem.title" :item="subItem"
-            :parentLink="fullLink" @select="forwardSelect" />
+            :icon-map="iconMap" :parentLink="fullLink" @select="forwardSelect" />
     </v-list-group>
 
     <v-list-item v-else :data-testid="item.title" :key="item.rank || item.title" :title="item.title"
         @click.stop.prevent="onSelect">
         <template #prepend>
-            <v-icon v-if="item.icon">{{ item.icon }}</v-icon>
+            <v-icon v-if="item.icon">{{ iconMap[item.icon] || item.icon }}</v-icon>
         </template>
     </v-list-item>
 </template>
@@ -26,9 +26,10 @@ import { toRefs, computed } from 'vue';
 const props = defineProps({
     item: { type: Object, required: true },
     parentLink: { type: String, default: '' },
+    iconMap: { type: Object, default: () => ({}) },
 });
 const emit = defineEmits(['select']);
-const { item, parentLink } = toRefs(props);
+const { item, parentLink, iconMap } = toRefs(props);
 
 // compute full link from parent + provided link (if present)
 // support either a string path or a route-location object

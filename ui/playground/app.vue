@@ -15,7 +15,8 @@
 
     </v-app-bar>
 
-    <IdiCmsNavDrawer :items="menuItems" :open="showDrawer" @toggle="handleToggle" @select="handleSelect" />
+    <IdiCmsNavDrawer :items="menuItems" :open="showDrawer" :icon-map="iconMap" @toggle="handleToggle"
+      @select="handleSelect" />
 
     <v-main v-scroll="onScroll" class="d-flex align-center flex-column">
       <v-container fluid class="my-10" :style="{ width: mdAndUp && !showDrawer ? '70%' : '90%', maxWidth: '1150px' }">
@@ -65,9 +66,17 @@
 import { useRouter } from '#app'
 import { useDisplay } from 'vuetify'
 import { ref, onMounted } from 'vue'
-import { mdiMagnify, mdiChevronUp } from '@mdi/js'
+import { mdiMagnify, mdiChevronUp, mdiHome, mdiTextBox, mdiViewGrid } from '@mdi/js'
 import { useStrapi } from '#imports'
 const { find } = useStrapi()
+
+const iconMap = {
+  magnify: mdiMagnify,
+  'chevron-up': mdiChevronUp,
+  home: mdiHome,
+  text: mdiTextBox,
+  tiles: mdiViewGrid,
+}
 
 // optional: try to use the project's Strapi composable if available
 let useStrapiAvailable = false
@@ -150,14 +159,24 @@ onMounted(async () => {
 // ]);
 
 
-const menuItems = (await find("menus", {
+const menuItemsData = (await find("menus", {
   populate: [
     'sub_menus',
     'sub_menus.sub_menus',
     'sub_menus.sub_menus.sub_menus' // menu has 3 levels
   ],
   filters: { title: { $eq: 'root' } },
-})).data[0].sub_menus
+})).data[0].sub_menus;
+
+// Add icons to the fetched menu items
+if (menuItemsData && menuItemsData.length) {
+  // Assuming the order is Start, Text, Tiles
+  if (menuItemsData[0]) menuItemsData[0].icon = 'home';
+  if (menuItemsData[1]) menuItemsData[1].icon = 'text';
+  if (menuItemsData[2]) menuItemsData[2].icon = 'tiles';
+}
+
+const menuItems = menuItemsData;
 
 </script>
 
@@ -206,6 +225,4 @@ const menuItems = (await find("menus", {
 .v-toolbar {
   padding-top: 0 !important;
 }
-
-
 </style>
