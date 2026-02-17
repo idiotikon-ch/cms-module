@@ -1,7 +1,7 @@
 <template>
     <v-list-group v-if="item.sub_menus && item.sub_menus.length" :data-testid="item.title">
         <template #activator="{ props }">
-            <v-list-item v-bind="props" :title="item.title" @click.stop.prevent="onSelect">
+            <v-list-item v-bind="props" :title="item.title">
                 <template #prepend>
                     <v-icon v-if="item.icon">{{ iconMap[item.icon] || item.icon }}</v-icon>
                 </template>
@@ -9,11 +9,11 @@
         </template>
 
         <NavItems v-for="subItem in item.sub_menus" :key="subItem.rank || subItem.title" :item="subItem"
-            :icon-map="iconMap" :parentLink="fullLink" @select="forwardSelect" />
+            :icon-map="iconMap" :parentLink="fullLink" />
     </v-list-group>
 
-    <v-list-item v-else :data-testid="item.title" :key="item.rank || item.title" :title="item.title"
-        @click.stop.prevent="onSelect">
+    <v-list-item v-else :data-testid="item.title" :key="item.rank || item.title" :title="item.title" :to="fullLink"
+        active-class="active_nav_item">
         <template #prepend>
             <v-icon v-if="item.icon">{{ iconMap[item.icon] || item.icon }}</v-icon>
         </template>
@@ -28,8 +28,7 @@ const props = defineProps({
     parentLink: { type: String, default: '' },
     iconMap: { type: Object, default: () => ({}) },
 });
-const emit = defineEmits(['select']);
-const { item, parentLink, iconMap } = toRefs(props);
+const { item, parentLink } = toRefs(props);
 
 // compute full link from parent + provided link (if present)
 // support either a string path or a route-location object
@@ -42,15 +41,6 @@ const fullLink = computed(() => {
     // assume route-location-like object (e.g. { name: 'index' }) and return it directly
     return link;
 });
-
-function onSelect() {
-    emit('select', { item: item.value, link: fullLink.value });
-}
-
-function forwardSelect(payload: any) {
-    // forward child selection up the chain
-    emit('select', payload);
-}
 </script>
 
 <style scoped>

@@ -2,8 +2,7 @@
     <v-navigation-drawer width="310" :temporary="mdAndDown" :scrim="mdAndDown" :style="{ padding: 0 }"
         :model-value="open" :location="location" @update:model-value="onToggle">
         <v-list class="pa-0">
-            <NavItems v-for="item in items" :key="item.rank || item.title" :item="item" :icon-map="iconMap"
-                @select="onSelect" />
+            <NavItems v-for="item in items" :key="item.rank || item.title" :item="item" :icon-map="iconMap" />
         </v-list>
     </v-navigation-drawer>
 </template>
@@ -19,15 +18,11 @@ const props = defineProps({
     location: { type: String, default: 'left' },
     iconMap: { type: Object, default: () => ({}) },
 });
-const emit = defineEmits(['toggle', 'select']);
+const emit = defineEmits(['toggle']);
 
 const mdAndDown = toRef(useDisplay(), 'mdAndDown');
 
 function onToggle(val: boolean) {
     emit('toggle', val);
-}
-
-function onSelect(payload: any) {
-    emit('select', payload);
 }
 </script>
