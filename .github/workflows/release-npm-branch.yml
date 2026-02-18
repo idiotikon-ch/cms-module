@@ -27,9 +27,9 @@ jobs:
           cp -r ui/* temp/
           git checkout --orphan npm-release
           git rm -rf .
-          rm -rf temp/ui/playground
           cp -r temp/* .
           rm -rf temp
+          rm -rf playground
           git add .
           git commit -m "Automated commit: move ui to root"
 
