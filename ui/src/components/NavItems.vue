@@ -34,6 +34,10 @@ try {
     pathResolver = (linkName: any) => {
         if (linkName === '/') return localePath('home');
         const resolved = localePath(linkName);
+        // Handle the homepage case where localePath resolves to an empty string for the root.
+        if (linkName === 'home' && resolved === '') {
+            return '/';
+        }
         // If localePath can't find a route, it returns the input.
         // In that case, we treat it as an invalid link.
         if (resolved === linkName && typeof linkName === 'string') return undefined;
