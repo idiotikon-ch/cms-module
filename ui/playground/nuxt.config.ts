@@ -6,6 +6,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   runtimeConfig: {
     public: {
+      strapi: {
+        url: "http://localhost:1338",
+      },
       appBase: "http://localhost:3000",
     },
   },

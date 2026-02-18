@@ -36,12 +36,13 @@ services:
       - ./strapi:/opt/app
     working_dir: /opt/app
     ports:
-      - 1337:1337
+      - 1338:1338
     environment:
       - DATABASE_CLIENT=sqlite
       - HOST=0.0.0.0
-      - PORT=1337
+      - PORT=1338
     command: npm run develop #npm run start
+
 
 # volumes:
 #   pgdata:
