@@ -23,6 +23,38 @@
 <script setup lang="ts">
 import { toRefs, computed } from 'vue';
 
+// Synchronously determine which path resolver to use.
+// This avoids the race condition of using onBeforeMount.
+let pathResolver: (path: any) => any;
+let isI18n: boolean;
+
+try {
+    const { useLocalePath } = await import('#imports');
+    const localePath = useLocalePath();
+    pathResolver = (linkName: any) => {
+        if (linkName === '/') return localePath('home');
+        const resolved = localePath(linkName);
+        // If localePath can't find a route, it returns the input.
+        // In that case, we treat it as an invalid link.
+        if (resolved === linkName && typeof linkName === 'string') return undefined;
+        return resolved;
+    };
+    isI18n = true;
+} catch (e) {
+    // Fallback for non-i18n projects.
+    pathResolver = (path: any) => {
+        if (typeof path === 'object' && path.name) return path;
+        if (typeof path === 'string') {
+            if (path === 'home') return '/';
+            // Ensure the path is root-relative.
+            return path.startsWith('/') ? path : `/${path}`;
+        }
+        return undefined;
+    };
+    isI18n = false;
+}
+
+
 const props = defineProps({
     item: { type: Object, required: true },
     parentLink: { type: String, default: '' },
@@ -31,15 +63,39 @@ const props = defineProps({
 const { item, parentLink } = toRefs(props);
 
 // compute full link from parent + provided link (if present)
-// support either a string path or a route-location object
 const fullLink = computed(() => {
-    const link = item.value.link ?? item.value.path ?? '';
-    if (!link) return `${parentLink.value || ''}`.replace(/\/\/+/g, '/');
-    if (typeof link === 'string') {
-        return `${parentLink.value || ''}/${link}`.replace(/\/\/+/g, '/');
+    const segment = item.value.link ?? item.value.path ?? null;
+
+    // Case 1: This is a v-list-group with no link of its own.
+    // Its fullLink is just the parent's link, to be passed to children.
+    if (!segment) {
+        return parentLink.value;
     }
-    // assume route-location-like object (e.g. { name: 'index' }) and return it directly
-    return link;
+
+    // Case 2: This is an item with an absolute external link.
+    if (typeof segment === 'string' && segment.startsWith('http')) {
+        return segment;
+    }
+
+    // Case 3: This is a link that needs to be resolved.
+    // Sanitize for i18n page names (e.g., 'data/general' -> 'data-general')
+    const sanitizedSegment = typeof segment === 'string' ? segment.replace(/\//g, '-') : segment;
+    const resolvedSegment = pathResolver(sanitizedSegment);
+
+    // If the segment couldn't be resolved, it might be a structural-only parent.
+    if (!resolvedSegment) {
+        return parentLink.value;
+    }
+
+    // For the non-i18n playground, we must manually construct the path.
+    if (!isI18n) {
+        const combined = `${parentLink.value || ''}${resolvedSegment}`;
+        // Avoid double slashes
+        return combined.replace(/\/\//g, '/');
+    }
+
+    // For the i18n app, localePath provides the full, correct path.
+    return resolvedSegment;
 });
 </script>
 
