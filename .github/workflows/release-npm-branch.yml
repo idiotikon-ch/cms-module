@@ -27,6 +27,7 @@ jobs:
           cp -r ui/* temp/
           git checkout --orphan npm-release
           git rm -rf .
+          rm -rf temp/ui/playground
           cp -r temp/* .
           rm -rf temp
           git add .
