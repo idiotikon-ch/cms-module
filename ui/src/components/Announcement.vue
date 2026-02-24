@@ -22,7 +22,7 @@
     </v-card>
 
     <v-card @click="navigateTo(url)" variant="elevated" class="white-border-tile teaser" border>
-        <v-card-title :style="{ whiteSpace: 'normal' }">
+        <v-card-title :style="{ whiteSpace: 'normal' }" class="text-h5">
             {{ title }}
         </v-card-title>
         <v-card-subtitle>
