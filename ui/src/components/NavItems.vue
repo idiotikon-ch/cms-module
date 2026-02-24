@@ -29,15 +29,22 @@ let pathResolver: (path: any) => any;
 let isI18n: boolean;
 
 try {
-    const { useLocalePath } = await import('#imports');
+    const { useLocalePath, useRoute } = await import('#imports');
     const localePath = useLocalePath();
+    const route = useRoute();
     pathResolver = (linkName: any) => {
-        if (linkName === '/') return localePath('home');
-        const resolved = localePath(linkName);
-        // Handle the homepage case where localePath resolves to an empty string for the root.
-        if (linkName === 'home' && resolved === '') {
-            return '/';
+        // Handle root/home paths specially
+        if (linkName === '/' || linkName === 'home') {
+            const resolved = localePath('index');
+            // If localePath returns empty string, use the locale prefix or root
+            if (resolved === '') {
+                // Extract locale prefix from current route (e.g., '/de' from '/de/something')
+                const localeMatch = route.path.match(/^\/([a-z]{2})\//);
+                return localeMatch ? `/${localeMatch[1]}/` : '/';
+            }
+            return resolved;
         }
+        const resolved = localePath(linkName);
         // If localePath can't find a route, it returns the input.
         // In that case, we treat it as an invalid link.
         if (resolved === linkName && typeof linkName === 'string') return undefined;
