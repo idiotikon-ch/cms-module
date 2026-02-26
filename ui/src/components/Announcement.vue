@@ -10,7 +10,7 @@
             {{ date }}
         </v-card-subtitle>
         <v-row>
-            <v-col v-if="content" cols="12" sm="6" md="8">
+            <v-col v-if="content" :cols="picture ? 12 : 12" :sm="picture ? 6 : 12" :md="picture ? 8 : 12">
                 <v-card-text>
                     <BlockRenderer :content="content" :baseUrl="cmsImagesUrl" />
                 </v-card-text>
@@ -21,7 +21,7 @@
         </v-row>
     </v-card>
 
-    <v-card @click="navigateTo(url)" variant="elevated" class="white-border-tile teaser" border>
+    <v-card v-else @click="navigateTo(url)" variant="elevated" class="white-border-tile teaser" border>
         <v-card-title :style="{ whiteSpace: 'normal' }" class="text-h5">
             {{ title }}
         </v-card-title>
