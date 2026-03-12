@@ -1,5 +1,5 @@
 <template>
-    <v-list-group v-if="item.sub_menus && item.sub_menus.length" :data-testid="item.title">
+    <v-list-group v-if="item.sub_menus && item.sub_menus.length" :data-testid="item.title" :value="groupId">
         <template #activator="{ props }">
             <v-list-item v-bind="props" :title="item.title">
                 <template #prepend>
@@ -9,11 +9,11 @@
         </template>
 
         <NavItems v-for="subItem in item.sub_menus" :key="subItem.rank || subItem.title" :item="subItem"
-            :icon-map="iconMap" :parentLink="fullLink" />
+            :icon-map="iconMap" :parentLink="fullLink" :parentGroupId="groupId" />
     </v-list-group>
 
     <v-list-item v-else :data-testid="item.title" :key="item.rank || item.title" :title="item.title" :to="fullLink"
-        active-class="active_nav_item">
+        :active="isItemActive" active-class="active_nav_item">
         <template #prepend>
             <v-icon v-if="item.icon">{{ iconMap[item.icon] || item.icon }}</v-icon>
         </template>
@@ -27,10 +27,12 @@ import { toRefs, computed } from 'vue';
 // This avoids the race condition of using onBeforeMount.
 let pathResolver: (path: any) => any;
 let isI18n: boolean;
+let useRoute: any = null;
 
 try {
-    const { useLocalePath, useRoute } = await import('#imports');
+    const { useLocalePath, useRoute: _useRoute } = await import('#imports');
     const localePath = useLocalePath();
+    useRoute = _useRoute;
     const route = useRoute();
     pathResolver = (linkName: any) => {
         // Handle root/home paths specially
@@ -69,9 +71,50 @@ try {
 const props = defineProps({
     item: { type: Object, required: true },
     parentLink: { type: String, default: '' },
+    parentGroupId: { type: String, default: '' },
     iconMap: { type: Object, default: () => ({}) },
 });
-const { item, parentLink } = toRefs(props);
+const { item, parentLink, parentGroupId } = toRefs(props);
+
+// Check if this individual item (not a group) is active
+// This handles child routes like /kolloquium/kolloquium-11 when item is /kolloquium
+const isItemActive = computed(() => {
+    if (!useRoute) return false;
+
+    const route = useRoute();
+    const currentPath = route.path;
+
+    // If fullLink is null/empty, not active
+    if (!fullLink.value) return false;
+
+    // Special handling for home/index routes (e.g., /de, /de/, /fr, /fr/)
+    // These should only be active on exact match
+    const isHomeRoute = fullLink.value.match(/^\/[a-z]{2}\/?$/);
+    if (isHomeRoute) {
+        const active = currentPath === fullLink.value ||
+            (fullLink.value.endsWith('/') && currentPath === fullLink.value.slice(0, -1)) ||
+            (!fullLink.value.endsWith('/') && currentPath === fullLink.value + '/');
+        return active;
+    }
+
+    // Check if current path matches this item at a path boundary
+    // This prevents "/de/" from matching "/de/forschung/..."
+    const isExactMatch = currentPath === fullLink.value;
+    const isChildPath = currentPath.startsWith(fullLink.value + '/');
+    const active = isExactMatch || isChildPath;
+
+    return active;
+});
+
+// Compute a locale-independent group ID for v-list-group value
+const groupId = computed(() => {
+    const segment = item.value.link ?? item.value.path ?? item.value.title;
+    if (!segment) return item.value.title;
+
+    // Create a stable ID by combining parent + sanitized segment
+    const sanitized = typeof segment === 'string' ? segment.replace(/\//g, '-') : segment;
+    return parentGroupId.value ? `${parentGroupId.value}/${sanitized}` : sanitized;
+});
 
 // compute full link from parent + provided link (if present)
 const fullLink = computed(() => {
@@ -122,6 +165,6 @@ const fullLink = computed(() => {
 }
 
 .v-list-item.active_nav_item {
-    background-color: #cdcdcd;
+    background-color: #cdcdcd !important;
 }
 </style>
