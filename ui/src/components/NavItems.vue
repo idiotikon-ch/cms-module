@@ -152,19 +152,3 @@ const fullLink = computed(() => {
     return resolvedSegment;
 });
 </script>
-
-<style scoped>
-.v-list-group__items .v-list-item {
-    padding-inline-start: 72px !important;
-    background-color: #e4e4e452;
-}
-
-.v-list-group__items .v-list-group__items .v-list-item {
-    padding-inline-start: 85px !important;
-    background-color: #e4e4e4f6;
-}
-
-.v-list-item.active_nav_item {
-    background-color: #cdcdcd !important;
-}
-</style>
