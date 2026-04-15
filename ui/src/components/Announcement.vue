@@ -1,6 +1,6 @@
 <template>
     <v-card v-if="!teaserOnly" class="white-border-tile" border>
-        <v-btn v-if="detailView" :to="`/mitteilungen`" class="mb-10">Zurück zur Übersicht</v-btn>
+        <v-btn v-if="detailView && backUrl" :to="backUrl" class="mb-10">{{ backButtonText }}</v-btn>
         <v-card-title :style="{ whiteSpace: 'normal' }" :class="detailView ? `text-h3` : `text-h5`">
             <NuxtLink v-if="url" :to="url" :style="{ textDecoration: 'None' }">
                 {{ title }}</NuxtLink>
@@ -84,6 +84,14 @@ const props = defineProps({
     readMoreText: {
         type: String,
         default: 'Weiterlesen'
+    },
+    backUrl: {
+        type: String,
+        default: ''
+    },
+    backButtonText: {
+        type: String,
+        default: 'Zurück zur Übersicht'
     }
 })
 
