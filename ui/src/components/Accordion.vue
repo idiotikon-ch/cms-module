@@ -118,6 +118,7 @@ const emit = defineEmits(['open', 'close'])
 
 .v-expansion-panel-text {
     background: #fff;
+    cursor: text;
 }
 
 .v-expansion-panel-title {
@@ -125,6 +126,7 @@ const emit = defineEmits(['open', 'close'])
     font-weight: bold;
     color: white !important;
     position: relative;
+    cursor: pointer;
 }
 
 .v-expansion-panel-title__overlay {
