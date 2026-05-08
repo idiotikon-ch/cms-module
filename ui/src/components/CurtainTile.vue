@@ -5,13 +5,14 @@
       <v-img cover :src="imgUrl" class="tile-image tile-image--fill tile-img-fill"
         :gradient="props.tile && props.tile.tile_category ? '' : 'rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)'"
         height="100%">
-        <div class="curtain curtain-absolute text-wrap" :class="isHovering || inViewport ? 'bg-primary' : ''" :style="{
-          transform: isHovering || inViewport ? '' : 'translateY(45%)',
-          opacity: isHovering || inViewport ? 0.8 : 1,
-        }">
+        <div class="curtain curtain-absolute text-wrap px-5 pt-5" :class="isHovering || inViewport ? 'bg-primary' : ''"
+          :style="{
+            transform: isHovering || inViewport ? '' : 'translateY(45%)',
+            opacity: isHovering || inViewport ? 0.8 : 1,
+          }">
           <MarkdownRenderer v-if="props.tile" :content="props.tile.title"
             class="text-center text-h5 font-weight-bold" />
-          <MarkdownRenderer v-if="props.tile" :content="props.tile.content" class="text-body-2"
+          <MarkdownRenderer v-if="props.tile" :content="props.tile.content" class="text-body-2 mt-4"
             :style="{ opacity: isHovering || inViewport ? 1 : 0 }" />
         </div>
       </v-img>
@@ -126,7 +127,6 @@ onUnmounted(() => {
 /* Overlay content absolutely centered over the image */
 .curtain {
   color: white;
-  justify-content: center;
   transition: all 0.5s ease;
 }
 
@@ -139,9 +139,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   pointer-events: none;
-  padding: 0 1.5rem;
 }
 
 .tile-card-fill {
@@ -154,6 +152,63 @@ onUnmounted(() => {
 .tile-img-fill {
   height: 100% !important;
   min-height: 0 !important;
+}
+
+/* Responsive font sizes for smaller screens */
+@media (max-width: 1500px) {
+  .curtain :deep(.text-h5) {
+    font-size: 1rem !important;
+  }
+
+  .curtain :deep(.text-body-2) {
+    font-size: 0.8rem !important;
+  }
+
+  .curtain :deep(.mt-4) {
+    margin-top: 0.5rem !important;
+  }
+}
+
+@media (max-width: 1350px) {
+  .curtain :deep(.text-h5) {
+    font-size: 0.9rem !important;
+  }
+
+  .curtain :deep(.text-body-2) {
+    font-size: 0.7rem !important;
+  }
+
+  .curtain :deep(.mt-4) {
+    margin-top: 0rem !important;
+  }
+
+  .curtain :deep(p) {
+    padding-bottom: 0 !important;
+  }
+}
+
+@media (max-width: 800px) {
+  .curtain :deep(.text-h5) {
+    font-size: 0.8rem !important;
+  }
+
+  .curtain :deep(.text-body-2) {
+    font-size: 0.8rem !important;
+  }
+
+  .curtain :deep(.mt-4) {
+    margin-top: 0.5rem !important;
+  }
+}
+
+@media (max-width: 599px) {
+  .curtain :deep(.text-h5) {
+    font-size: 1.2rem !important;
+  }
+
+  .curtain :deep(.text-body-2) {
+    font-size: 0.85rem !important;
+  }
 }
 </style>
 <style scoped>
