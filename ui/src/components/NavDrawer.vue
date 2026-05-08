@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer width="310" :temporary="mdAndDown" :scrim="mdAndDown" :style="{ padding: 0 }"
+    <v-navigation-drawer width="310" :temporary="isTemporary" :scrim="isTemporary" :style="{ padding: 0 }"
         :model-value="open" :location="location" @update:model-value="onToggle">
         <v-list class="pa-0" v-model:opened="openedGroups">
             <NavItems v-for="item in items" :key="item.rank || item.title" :item="item" :icon-map="iconMap" />
@@ -17,10 +17,12 @@ const props = defineProps({
     open: { type: Boolean, default: false },
     location: { type: String, default: 'left' },
     iconMap: { type: Object, default: () => ({}) },
+    forceTemporary: { type: Boolean, default: false },
 });
 const emit = defineEmits(['toggle']);
 
 const mdAndDown = toRef(useDisplay(), 'mdAndDown');
+const isTemporary = computed(() => mdAndDown.value || props.forceTemporary);
 
 // Import route composable for checking current path
 let useRoute: any;
