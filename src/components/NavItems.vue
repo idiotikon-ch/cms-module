@@ -1,0 +1,154 @@
+<template>
+    <v-list-group v-if="item.sub_menus && item.sub_menus.length" :data-testid="item.title" :value="groupId">
+        <template #activator="{ props }">
+            <v-list-item v-bind="props" :title="item.title">
+                <template #prepend>
+                    <v-icon v-if="item.icon">{{ iconMap[item.icon] || item.icon }}</v-icon>
+                </template>
+            </v-list-item>
+        </template>
+
+        <NavItems v-for="subItem in item.sub_menus" :key="subItem.rank || subItem.title" :item="subItem"
+            :icon-map="iconMap" :parentLink="fullLink" :parentGroupId="groupId" />
+    </v-list-group>
+
+    <v-list-item v-else :data-testid="item.title" :key="item.rank || item.title" :title="item.title" :to="fullLink"
+        :active="isItemActive" active-class="active_nav_item">
+        <template #prepend>
+            <v-icon v-if="item.icon">{{ iconMap[item.icon] || item.icon }}</v-icon>
+        </template>
+    </v-list-item>
+</template>
+
+<script setup lang="ts">
+import { toRefs, computed } from 'vue';
+
+// Synchronously determine which path resolver to use.
+// This avoids the race condition of using onBeforeMount.
+let pathResolver: (path: any) => any;
+let isI18n: boolean;
+let useRoute: any = null;
+
+try {
+    const { useLocalePath, useRoute: _useRoute } = await import('#imports');
+    const localePath = useLocalePath();
+    useRoute = _useRoute;
+    const route = useRoute();
+    pathResolver = (linkName: any) => {
+        // Handle root/home paths specially
+        if (linkName === '/' || linkName === 'home') {
+            const resolved = localePath('index');
+            // If localePath returns empty string, use the locale prefix or root
+            if (resolved === '') {
+                // Extract locale prefix from current route (e.g., '/de' from '/de/something')
+                const localeMatch = route.path.match(/^\/([a-z]{2})\//);
+                return localeMatch ? `/${localeMatch[1]}/` : '/';
+            }
+            return resolved;
+        }
+        const resolved = localePath(linkName);
+        // If localePath can't find a route, it returns the input.
+        // In that case, we treat it as an invalid link.
+        if (resolved === linkName && typeof linkName === 'string') return undefined;
+        return resolved;
+    };
+    isI18n = true;
+} catch (e) {
+    // Fallback for non-i18n projects.
+    pathResolver = (path: any) => {
+        if (typeof path === 'object' && path.name) return path;
+        if (typeof path === 'string') {
+            if (path === 'home') return '/';
+            // Ensure the path is root-relative.
+            return path.startsWith('/') ? path : `/${path}`;
+        }
+        return undefined;
+    };
+    isI18n = false;
+}
+
+
+const props = defineProps({
+    item: { type: Object, required: true },
+    parentLink: { type: String, default: '' },
+    parentGroupId: { type: String, default: '' },
+    iconMap: { type: Object, default: () => ({}) },
+});
+const { item, parentLink, parentGroupId } = toRefs(props);
+
+// Check if this individual item (not a group) is active
+// This handles child routes like /kolloquium/kolloquium-11 when item is /kolloquium
+const isItemActive = computed(() => {
+    if (!useRoute) return false;
+
+    const route = useRoute();
+    const currentPath = route.path;
+
+    // If fullLink is null/empty, not active
+    if (!fullLink.value) return false;
+
+    // Special handling for home/index routes (e.g., /de, /de/, /fr, /fr/)
+    // These should only be active on exact match
+    const isHomeRoute = fullLink.value.match(/^\/[a-z]{2}\/?$/);
+    if (isHomeRoute) {
+        const active = currentPath === fullLink.value ||
+            (fullLink.value.endsWith('/') && currentPath === fullLink.value.slice(0, -1)) ||
+            (!fullLink.value.endsWith('/') && currentPath === fullLink.value + '/');
+        return active;
+    }
+
+    // Check if current path matches this item at a path boundary
+    // This prevents "/de/" from matching "/de/forschung/..."
+    const isExactMatch = currentPath === fullLink.value;
+    const isChildPath = currentPath.startsWith(fullLink.value + '/');
+    const active = isExactMatch || isChildPath;
+
+    return active;
+});
+
+// Compute a locale-independent group ID for v-list-group value
+const groupId = computed(() => {
+    const segment = item.value.link ?? item.value.path ?? item.value.title;
+    if (!segment) return item.value.title;
+
+    // Create a stable ID by combining parent + sanitized segment
+    const sanitized = typeof segment === 'string' ? segment.replace(/\//g, '-') : segment;
+    return parentGroupId.value ? `${parentGroupId.value}/${sanitized}` : sanitized;
+});
+
+// compute full link from parent + provided link (if present)
+const fullLink = computed(() => {
+    const segment = item.value.link ?? item.value.path ?? null;
+
+    // Case 1: This is a v-list-group with no link of its own.
+    // Its fullLink is just the parent's link, to be passed to children.
+    if (!segment) {
+        return parentLink.value;
+    }
+
+    // Case 2: This is an item with an absolute external link.
+    if (typeof segment === 'string' && segment.startsWith('http')) {
+        return segment;
+    }
+
+    // Case 3: This is a link that needs to be resolved.
+    // Sanitize for i18n page names (e.g., 'data/general' -> 'data-general')
+    const sanitizedSegment = typeof segment === 'string' ? segment.replace(/\//g, '-') : segment;
+    const resolvedSegment = pathResolver(sanitizedSegment);
+
+    // If the segment couldn't be resolved, it might be a structural-only parent.
+    if (!resolvedSegment) {
+        return parentLink.value;
+    }
+
+    // For the non-i18n playground, we must manually construct the path.
+    if (!isI18n) {
+        const combined = `${parentLink.value || ''}${resolvedSegment}`;
+        // Avoid double slashes
+        return combined.replace(/\/\//g, '/');
+    }
+
+    // For the i18n app, localePath provides the full, correct path.
+    return resolvedSegment;
+});
+</script>
